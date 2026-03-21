@@ -50,3 +50,87 @@ a {
 .info-box {
   @apply rounded-2xl bg-[var(--color-surface)] p-4;
 }
+
+.hero-section {
+  @apply rounded-3xl border border-[var(--color-border)] bg-white px-6 py-10 shadow-sm;
+}
+
+.hero-box {
+  @apply mx-auto max-w-4xl text-center;
+}
+
+.hero-tag {
+  @apply text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-primary)];
+}
+
+.hero-title {
+  @apply mt-3 text-4xl font-semibold tracking-tight text-[var(--color-primary-dark)] sm:text-5xl;
+}
+
+.hero-subtitle {
+  @apply mx-auto mt-4 max-w-3xl text-lg leading-8 text-[var(--color-text-soft)];
+}
+
+.section-title {
+  @apply text-2xl font-semibold tracking-tight text-[var(--color-primary-dark)];
+}
+
+.card-title {
+  @apply text-xl font-semibold text-[var(--color-primary-dark)];
+}
+
+.quote-text {
+  @apply mt-4 italic text-[var(--color-text-soft)];
+}
+
+.service-icon {
+  @apply text-3xl;
+}
+
+.service-label {
+  @apply mt-2 text-sm font-semibold uppercase tracking-wide text-[var(--color-primary)];
+}
+
+.primary-button {
+  @apply rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90;
+}
+
+.hero-small {
+  @apply rounded-3xl border border-[var(--color-border)] bg-white px-6 py-8 shadow-sm;
+}
+
+.empty-message {
+  @apply text-base leading-7 text-[var(--color-text-soft)];
+}
+
+.auth-card {
+  @apply mx-auto max-w-xl rounded-3xl border border-[var(--color-border)] bg-white p-6 shadow-sm;
+}
+
+.simple-form {
+  @apply mt-6 flex flex-col gap-4;
+}
+
+.form-field {
+  @apply flex flex-col gap-2;
+}
+
+.form-field label {
+  @apply text-sm font-medium text-[var(--color-text)];
+}
+
+.form-field input {
+  @apply rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[var(--color-text)] outline-none;
+}
+
+.auth-text {
+  @apply mt-6 text-sm text-[var(--color-text-soft)];
+}
+
+.auth-text a {
+  @apply font-medium text-[var(--color-primary-dark)];
+}
+
+.avatar-circle {
+  @apply mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-primary)] text-lg font-semibold text-white;
+}
