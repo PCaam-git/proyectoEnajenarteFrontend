@@ -3,7 +3,7 @@ export default function AdminPanel() {
     <section className="page-card">
       <h1 className="page-title">Panel de administración</h1>
       <p className="page-text">
-        Punto de entrada del área admin.
+        Gestión de usuarios, ponentes, eventos, talleres e inscripciones.
       </p>
     </section>
   )

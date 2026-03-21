@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/layout/Layout'
+import ProtectedRoute from './components/common/ProtectedRoute'
 
 import Home from './pages/public/Home'
 import Login from './pages/public/Login'
@@ -28,15 +29,77 @@ export default function App() {
           <Route path="/eventos" element={<Events />} />
           <Route path="/talleres" element={<Workshops />} />
 
-          <Route path="/perfil" element={<Profile />} />
-          <Route path="/mis-inscripciones" element={<MyRegistrations />} />
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/admin" element={<AdminPanel />} />
-          <Route path="/admin/usuarios" element={<AdminUsers />} />
-          <Route path="/admin/ponentes" element={<AdminSpeakers />} />
-          <Route path="/admin/eventos" element={<AdminEvents />} />
-          <Route path="/admin/talleres" element={<AdminWorkshops />} />
-          <Route path="/admin/inscripciones" element={<AdminRegistrations />} />
+          <Route
+            path="/mis-inscripciones"
+            element={
+              <ProtectedRoute>
+                <MyRegistrations />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/usuarios"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminUsers />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/ponentes"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminSpeakers />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/eventos"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminEvents />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/talleres"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminWorkshops />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/inscripciones"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminRegistrations />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </BrowserRouter>
