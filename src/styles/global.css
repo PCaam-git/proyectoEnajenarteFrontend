@@ -134,3 +134,22 @@ a {
 .avatar-circle {
   @apply mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-primary)] text-lg font-semibold text-white;
 }
+.list-grid {
+  @apply grid gap-4;
+}
+
+.item-card {
+  @apply rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5;
+}
+
+.item-data {
+  @apply mt-4 space-y-2 text-sm text-[var(--color-text-soft)];
+}
+
+.item-label {
+  @apply font-semibold text-[var(--color-text)];
+}
+
+.error-message {
+  @apply text-base font-medium text-red-600;
+}
