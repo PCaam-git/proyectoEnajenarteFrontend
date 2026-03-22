@@ -11,3 +11,29 @@ export async function registerUser(userData) {
 
   return response.data
 }
+
+export async function getUserByUsername(username) {
+  const response = await api.get('/users', {
+    params: { username },
+    validateStatus: (status) => status === 200 || status === 204,
+  })
+
+  if (response.status === 204) {
+    return null
+  }
+
+  const users = response.data
+  return users.find((user) => user.username === username) || null
+}
+
+export async function getUserRegistrations(userId) {
+  const response = await api.get(`/users/${userId}/registrations`, {
+    validateStatus: (status) => status === 200 || status === 204,
+  })
+
+  if (response.status === 204) {
+    return []
+  }
+
+  return response.data
+}
