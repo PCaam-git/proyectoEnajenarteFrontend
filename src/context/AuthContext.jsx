@@ -1,23 +1,29 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 const AuthContext = createContext()
 
+function getInitialToken() {
+  return localStorage.getItem('token') || ''
+}
+
+function getInitialUser() {
+  const savedUser = localStorage.getItem('user')
+
+  if (!savedUser) {
+    return null
+  }
+
+  try {
+    return JSON.parse(savedUser)
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState('')
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    const savedToken = localStorage.getItem('token')
-    const savedUser = localStorage.getItem('user')
-
-    if (savedToken) {
-      setToken(savedToken)
-    }
-
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
-    }
-  }, [])
+  const [token, setToken] = useState(getInitialToken)
+  const [user, setUser] = useState(getInitialUser)
 
   function login(authData) {
   const receivedToken = authData.token
