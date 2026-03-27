@@ -157,3 +157,11 @@ a {
 .mt-6 {
   margin-top: 1.5rem;
 }
+
+.checkbox-field {
+  @apply flex items-center gap-3;
+}
+
+.form-textarea {
+  @apply min-h-28 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[var(--color-text)] outline-none;
+}

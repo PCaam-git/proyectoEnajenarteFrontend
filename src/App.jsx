@@ -18,6 +18,12 @@ import AdminEvents from './pages/admin/AdminEvents'
 import AdminWorkshops from './pages/admin/AdminWorkshops'
 import AdminRegistrations from './pages/admin/AdminRegistrations'
 
+import AdminUserForm from './pages/admin/AdminUserForm'
+import AdminSpeakerForm from './pages/admin/AdminSpeakerForm'
+import AdminEventForm from './pages/admin/AdminEventForm'
+import AdminWorkshopForm from './pages/admin/AdminWorkshopForm'
+import AdminRegistrationForm from './pages/admin/AdminRegistrationForm'
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -64,12 +70,44 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/usuarios/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminUserForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/usuarios/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminUserForm />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/admin/ponentes"
             element={
               <ProtectedRoute adminOnly={true}>
                 <AdminSpeakers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/ponentes/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminSpeakerForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/ponentes/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminSpeakerForm />
               </ProtectedRoute>
             }
           />
@@ -82,6 +120,22 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/eventos/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminEventForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/eventos/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminEventForm />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/admin/talleres"
@@ -91,12 +145,44 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/talleres/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminWorkshopForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/talleres/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminWorkshopForm />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/admin/inscripciones"
             element={
               <ProtectedRoute adminOnly={true}>
                 <AdminRegistrations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/inscripciones/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminRegistrationForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/inscripciones/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminRegistrationForm />
               </ProtectedRoute>
             }
           />
