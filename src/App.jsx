@@ -19,12 +19,14 @@ import AdminSpeakers from './pages/admin/AdminSpeakers'
 import AdminEvents from './pages/admin/AdminEvents'
 import AdminWorkshops from './pages/admin/AdminWorkshops'
 import AdminRegistrations from './pages/admin/AdminRegistrations'
+import AdminCalendar from './pages/admin/AdminCalendar'
 
 import AdminUserForm from './pages/admin/AdminUserForm'
 import AdminSpeakerForm from './pages/admin/AdminSpeakerForm'
 import AdminEventForm from './pages/admin/AdminEventForm'
 import AdminWorkshopForm from './pages/admin/AdminWorkshopForm'
 import AdminRegistrationForm from './pages/admin/AdminRegistrationForm'
+import AdminCalendarForm from './pages/admin/AdminCalendarForm'
 
 export default function App() {
   return (
@@ -170,6 +172,33 @@ export default function App() {
             element={
               <Contact />
             } 
+          />
+
+          <Route
+            path="/admin/calendario"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminCalendar />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/calendario/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminCalendarForm />
+              </ProtectedRoute>
+          }
+          />
+
+          <Route
+            path="/admin/calendario/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminCalendarForm />
+              </ProtectedRoute>
+            }
           />
 
           <Route

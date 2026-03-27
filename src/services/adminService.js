@@ -143,3 +143,31 @@ export async function updateRegistration(id, registrationData) {
 export async function deleteRegistration(id) {
   await api.delete(`/registrations/${id}`)
 }
+
+// ADMIN CALENDAR
+export async function getAllAdminCalendar() {
+  const response = await api.get('/admin-calendar', {
+    validateStatus: (status) => status === 200 || status === 204,
+  })
+
+  return getDataOrEmptyArray(response)
+}
+
+export async function getAdminCalendarById(id) {
+  const response = await api.get(`/admin-calendar/${id}`)
+  return response.data
+}
+
+export async function createAdminCalendar(calendarData) {
+  const response = await api.post('/admin-calendar', calendarData)
+  return response.data
+}
+
+export async function updateAdminCalendar(id, calendarData) {
+  const response = await api.put(`/admin-calendar/${id}`, calendarData)
+  return response.data
+}
+
+export async function deleteAdminCalendar(id) {
+  await api.delete(`/admin-calendar/${id}`)
+}
