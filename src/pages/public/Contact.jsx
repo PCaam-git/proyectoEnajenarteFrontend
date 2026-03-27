@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { sendContactMessage } from '../../services/contactService'
 import { getAllWorkshops } from '../../services/workshopService'
-// pendiente añadir programs. Dejo lógica preparada:
-// import { getAllPrograms } from '../../services/programService'
+import { getAllPrograms } from '../../services/programService'
 
 export default function Contact() {
 
@@ -15,7 +14,7 @@ export default function Contact() {
   })
 
   const [workshops, setWorkshops] = useState([])
-  // const [programs, setPrograms] = useState([])
+  const [programs, setPrograms] = useState([])
 
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState('')
@@ -23,7 +22,7 @@ export default function Contact() {
 
   useEffect(() => {
     loadWorkshops()
-    // loadPrograms()
+    loadPrograms()
   }, [])
 
   async function loadWorkshops() {
@@ -35,10 +34,29 @@ export default function Contact() {
     }
   }
 
+  async function loadPrograms() {
+    try {
+      const data = await getAllPrograms()
+      setPrograms(data || [])
+    } catch (err) {
+      console.error(err)
+    }
+}
+
   function handleChange(e) {
     const { name, value } = e.target
-    setForm({ ...form, [name]: value })
+
+    if (name === 'category') {
+       setForm({
+        ...form,
+        category: value,
+        referenceId: ''
+       })
+       return
   }
+
+  setForm({ ...form, [name]: value })
+}
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -67,7 +85,7 @@ export default function Contact() {
     }
   }
 
-  const currentList = form.category === 'WORKSHOP' ? workshops : []
+  const currentList = form.category === 'WORKSHOP' ? workshops : programs
 
   return (
     <section className="page-card max-w-xl mx-auto">

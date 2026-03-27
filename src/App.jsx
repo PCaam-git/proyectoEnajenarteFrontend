@@ -7,6 +7,7 @@ import Login from './pages/public/Login'
 import Register from './pages/public/Register'
 import Events from './pages/public/Events'
 import Workshops from './pages/public/Workshops'
+import Programs from './pages/public/Programs'
 import Contact from './pages/public/Contact'
 
 import Profile from './pages/user/Profile'
@@ -35,6 +36,8 @@ export default function App() {
           <Route path="/registro" element={<Register />} />
           <Route path="/eventos" element={<Events />} />
           <Route path="/talleres" element={<Workshops />} />
+          <Route path="/programas" element={<Programs />} />
+          
 
           <Route
             path="/perfil"

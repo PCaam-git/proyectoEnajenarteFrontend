@@ -40,7 +40,11 @@ export default function Header() {
           </NavLink>
 
           <NavLink to="/talleres" className={linkClass}>
-            Workshops
+            Talleres
+          </NavLink>
+
+          <NavLink to="/programas" className={linkClass}>
+            Programas
           </NavLink>
 
           <NavLink to="/contacto" className={linkClass}>
