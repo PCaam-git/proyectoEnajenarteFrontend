@@ -7,6 +7,7 @@ import Login from './pages/public/Login'
 import Register from './pages/public/Register'
 import Events from './pages/public/Events'
 import Workshops from './pages/public/Workshops'
+import Contact from './pages/public/Contact'
 
 import Profile from './pages/user/Profile'
 import MyRegistrations from './pages/user/MyRegistrations'
@@ -160,6 +161,12 @@ export default function App() {
                 <AdminWorkshopForm />
               </ProtectedRoute>
             }
+          />
+          <Route 
+            path="/contacto" 
+            element={
+              <Contact />
+            } 
           />
 
           <Route

@@ -43,6 +43,10 @@ export default function Header() {
             Workshops
           </NavLink>
 
+          <NavLink to="/contacto" className={linkClass}>
+          Contacto
+          </NavLink>
+
           {!isAuthenticated() && (
             <>
               <NavLink to="/login" className={linkClass}>
