@@ -74,6 +74,13 @@ export default function AdminCalendar() {
     return '#9CA3AF'
   }
 
+  function compareBlocksByHour(blockA, blockB) {
+    const hourA = blockA.hour || ' '
+    const hourB = blockB.hour || ' '
+
+    return hourA.localeCompare(hourB)
+  }
+
   function renderCalendarMarkers(date, view) {
     if (view !== 'month') return null
 
@@ -110,7 +117,7 @@ export default function AdminCalendar() {
     )
   }
 
-  const filteredBlocks = getBlocksForDate(selectedDate)
+  const filteredBlocks = getBlocksForDate(selectedDate).sort(compareBlocksByHour)
 
   if (loading) {
     return <p className="empty-message">Cargando calendario...</p>
