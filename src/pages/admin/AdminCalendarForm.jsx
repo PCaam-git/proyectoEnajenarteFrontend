@@ -84,16 +84,26 @@ export default function AdminCalendarForm() {
       }
 
       navigate('/admin/calendario')
-    } catch (err) {
-      setError('No se ha podido guardar el bloque del calendario.')
-      console.error(err)
+    } catch (error) {
+      console.error(error)
+
+      const backendError = error.response?.data
+
+      if (backendError?.message) {
+        setError(backendError.message)
+      } else if (backendError?.errors) {
+        const firstError = Object.values(backendError.errors)[0]
+        setError(firstError || 'No se ha podido guardar la entrada en el calendario.')
+      } else {
+        setError('No se ha podido guardar la entrada en el calendario.')
+      }
     } finally {
       setSaving(false)
-    }
   }
+}
 
   if (loading) {
-    return <p className="empty-message">Cargando bloque del calendario...</p>
+    return <p className="empty-message">Cargando entradas del calendario...</p>
   }
 
   return (
