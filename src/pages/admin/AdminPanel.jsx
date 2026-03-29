@@ -23,9 +23,16 @@ export default function AdminPanel() {
         </Link>
 
         <Link to="/admin/talleres" className="info-box">
-          <h2 className="card-title">Workshops</h2>
+          <h2 className="card-title">Talleres</h2>
           <p className="page-text mt-2">
-            Consultar el listado de workshops disponibles.
+            Consultar el listado de talleres disponibles.
+          </p>
+        </Link>
+
+        <Link to="/admin/programas" className="info-box">
+          <h2 className="card-title">Programas</h2>
+          <p className="page-text mt-2">
+            Consultar el listado de programas disponibles.
           </p>
         </Link>
 
@@ -33,6 +40,13 @@ export default function AdminPanel() {
           <h2 className="card-title">Inscripciones</h2>
           <p className="page-text mt-2">
             Consultar inscripciones y actualizar el estado de pago.
+          </p>
+        </Link>
+
+        <Link to="/admin/calendario" className="info-box">
+          <h2 className="card-title">Calendario admin</h2>
+          <p className="page-text mt-2">
+            Consultar y gestionar la planificación interna.
           </p>
         </Link>
       </div>
