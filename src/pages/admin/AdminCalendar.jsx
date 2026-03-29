@@ -89,6 +89,34 @@ export default function AdminCalendar() {
     return hourA.localeCompare(hourB)
   }
 
+  function openInGoogleCalendar(block) {
+    const startDateTime = `${block.startDate}T${block.hour}:00`
+    const startDate = new Date(startDateTime)
+
+    const endDate = new Date(startDate)
+    endDate.setMinutes(endDate.getMinutes() + block.durationMinutes)
+
+    function formatGoogleDate(date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      const hours = String(date.getHours()).padStart(2, '0')
+      const minutes = String(date.getMinutes()).padStart(2, '0')
+      const seconds = String(date.getSeconds()).padStart(2, '0')
+
+      return `${year}${month}${day}T${hours}${minutes}${seconds}`
+    }
+
+    const googleUrl = new URL('https://www.google.com/calendar/render')
+    googleUrl.searchParams.set('action', 'TEMPLATE')
+    googleUrl.searchParams.set('text', block.title || 'Entrada de calendario')
+    googleUrl.searchParams.set('dates', `${formatGoogleDate(startDate)}/${formatGoogleDate(endDate)}`)
+    googleUrl.searchParams.set('details', block.description || '')
+    googleUrl.searchParams.set('location', block.speakerName || '')
+
+    window.open(googleUrl.toString(), '_blank')
+  }
+
   function renderCalendarMarkers(date, view) {
     if (view !== 'month') return null
 
@@ -242,6 +270,14 @@ export default function AdminCalendar() {
                     >
                       Editar
                     </Link>
+
+                    <button
+                      type="button"
+                      className="secondary-button"
+                      onClick={() => openInGoogleCalendar(block)}
+                    >
+                      Google Calendar
+                    </button>
 
                     <button
                       type="button"
