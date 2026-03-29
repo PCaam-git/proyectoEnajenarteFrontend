@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import {
   createAdminCalendar,
   getAdminCalendarById,
+  getAllSpeakers,
   updateAdminCalendar
 } from '../../services/adminService'
 
@@ -23,10 +24,13 @@ export default function AdminCalendarForm() {
   })
 
   const [loading, setLoading] = useState(isEdit)
+  const [speakers, setSpeakers] = useState([])
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
+    loadSpeakers()
+
     if (isEdit) {
       loadAdminCalendar()
     }
@@ -54,6 +58,15 @@ export default function AdminCalendarForm() {
       console.error(err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function loadSpeakers() {
+    try {
+      const data = await getAllSpeakers()
+      setSpeakers(data || [])
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -99,8 +112,8 @@ export default function AdminCalendarForm() {
       }
     } finally {
       setSaving(false)
+    }
   }
-}
 
   if (loading) {
     return <p className="empty-message">Cargando entradas del calendario...</p>
@@ -196,13 +209,22 @@ export default function AdminCalendarForm() {
 
         <div>
           <label className="form-label">Ponente</label>
-          <input
-            type="text"
+          <select
             name="speakerName"
             value={form.speakerName}
             onChange={handleChange}
             className="input"
-          />
+          >
+            <option value="">Selecciona un ponente</option>
+            {speakers.map((speaker) => (
+              <option
+                key={speaker.id}
+                value={`${speaker.firstName} ${speaker.lastName}`}
+              >
+                {speaker.firstName} {speaker.lastName}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
