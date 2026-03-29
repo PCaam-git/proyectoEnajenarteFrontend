@@ -74,6 +74,14 @@ export default function AdminCalendar() {
     return '#9CA3AF'
   }
 
+  function getCategoryLabel(category) {
+    if (category === 'WORKSHOP') return 'Taller'
+    if (category === 'PROGRAM') return 'Programa'
+    if (category === 'EVENT') return 'Evento'
+    if (category === 'PERSONAL') return 'Personal'
+    return 'Desconocido'
+  }
+
   function compareBlocksByHour(blockA, blockB) {
     const hourA = blockA.hour || ' '
     const hourB = blockB.hour || ' '
@@ -216,7 +224,7 @@ export default function AdminCalendar() {
                     </p>
 
                     <p>
-                      <span className="item-label">Tipo:</span> {block.category}
+                      <span className="item-label">Tipo:</span> {getCategoryLabel(block.category)}
                     </p>
 
                     {block.speakerName && (
