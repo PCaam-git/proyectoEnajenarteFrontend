@@ -7,11 +7,13 @@ import {
   updateAdminCalendar
 } from '../../services/adminService'
 
+// Componente para crear o editar una entrada del calendario en el panel de administración
 export default function AdminCalendarForm() {
   const navigate = useNavigate()
   const { id } = useParams()
   const isEdit = Boolean(id)
 
+  // Estado para manejar los datos del formulario
   const [form, setForm] = useState({
     title: '',
     startDate: '',
@@ -23,6 +25,7 @@ export default function AdminCalendarForm() {
     speakerName: ''
   })
 
+  // Estados para manejar la carga de datos, la lista de ponentes, el estado de guardado y los errores
   const [loading, setLoading] = useState(isEdit)
   const [speakers, setSpeakers] = useState([])
   const [saving, setSaving] = useState(false)
@@ -30,18 +33,33 @@ export default function AdminCalendarForm() {
 
   useEffect(() => {
     loadSpeakers()
+  }, [])
 
-    if (isEdit) {
+  // Si estamos editando una entrada del calendario, cargamos sus datos para mostrarlos en el formulario
+  useEffect(() => {
+    if (isEdit && speakers.length > 0) {
       loadAdminCalendar()
     }
-  }, [id])
+  }, [id, speakers])
 
+  // Carga los datos de la entrada del calendario para edición
   async function loadAdminCalendar() {
     try {
       setLoading(true)
       setError('')
 
+      // Obtiene los datos de la entrada del calendario por ID y los asigna al formulario
       const data = await getAdminCalendarById(id)
+
+      // Busca el ponente seleccionado en la lista de ponentes para mostrar su nombre en el dropdown
+      const savedSpeakerName = data.speakerName || ''
+
+      // Normaliza el nombre del ponente guardado para compararlo con los nombres de los ponentes disponibles
+      const matchedSpeaker = speakers.find(
+        (speaker) =>
+          normalizeText(`${speaker.firstName} ${speaker.lastName}`) ===
+        normalizeText(savedSpeakerName)
+      )
 
       setForm({
         title: data.title || '',
@@ -51,8 +69,10 @@ export default function AdminCalendarForm() {
         durationMinutes: data.durationMinutes || '',
         category: data.category || '',
         description: data.description || '',
-        speakerName: data.speakerName || ''
+        speakerName: matchedSpeaker ? `${matchedSpeaker.firstName} ${matchedSpeaker.lastName}`
+          : savedSpeakerName
       })
+
     } catch (err) {
       setError('No se ha podido cargar el calendario.')
       console.error(err)
@@ -61,6 +81,7 @@ export default function AdminCalendarForm() {
     }
   }
 
+  // Carga la lista de ponentes para el dropdown
   async function loadSpeakers() {
     try {
       const data = await getAllSpeakers()
@@ -70,6 +91,15 @@ export default function AdminCalendarForm() {
     }
   }
 
+  // Normaliza el texto para comparaciones (por ejemplo, al buscar el ponente seleccionado)
+  function normalizeText(value) {
+    return (value || '')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLowerCase()
+  }
+
+  // Maneja los cambios en los campos del formulario
   function handleChange(event) {
     const { name, value } = event.target
     setForm({
@@ -78,6 +108,7 @@ export default function AdminCalendarForm() {
     })
   }
 
+  // Maneja el envío del formulario para crear o actualizar una entrada del calendario
   async function handleSubmit(event) {
     event.preventDefault()
 
@@ -85,23 +116,27 @@ export default function AdminCalendarForm() {
       setSaving(true)
       setError('')
 
+      // Prepara el payload para enviar al backend, asegurándose de convertir la duración a número
       const payload = {
         ...form,
         durationMinutes: Number(form.durationMinutes)
       }
 
+      // Si se ha seleccionado un ponente, encuentra su ID para enviarlo al backend
       if (isEdit) {
         await updateAdminCalendar(id, payload)
       } else {
         await createAdminCalendar(payload)
       }
 
+      // Redirige de vuelta a la lista de calendarios después de guardar
       navigate('/admin/calendario')
     } catch (error) {
       console.error(error)
 
       const backendError = error.response?.data
 
+      // Maneja los errores de la respuesta del backend para mostrar mensajes más específicos
       if (backendError?.message) {
         setError(backendError.message)
       } else if (backendError?.errors) {
@@ -115,10 +150,12 @@ export default function AdminCalendarForm() {
     }
   }
 
+  // Muestra un mensaje de carga mientras se obtienen los datos para edición
   if (loading) {
     return <p className="empty-message">Cargando entradas del calendario...</p>
   }
 
+  // Renderiza el formulario para crear o editar una entrada del calendario
   return (
     <section className="page-card max-w-3xl">
       <h1 className="page-title">
