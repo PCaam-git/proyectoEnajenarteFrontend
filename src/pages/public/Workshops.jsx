@@ -59,10 +59,6 @@ export default function Workshops() {
                     {new Date(workshop.startDate).toLocaleDateString('es-ES')}
                   </p>
                   <p>
-                    <span className="item-label">Confirmación:</span>{' '}
-                    {new Date(workshop.confirmationDeadline).toLocaleDateString('es-ES')}
-                  </p>
-                  <p>
                     <span className="item-label">Duración:</span>{' '}
                     {workshop.durationMinutes} min
                   </p>

@@ -62,14 +62,14 @@ export default function AdminWorkshopForm() {
         confirmationDeadline: data.confirmationDeadline || '',
         durationMinutes: data.durationMinutes || '',
         price: data.price || '',
-        minimumParticipants: '',
-        maxCapacity: '',
+        minimumParticipants: data.minimumParticipants || '',
+        maxCapacity: data.maxCapacity ||'',
         isOnline: data.isOnline,
         speakerId: data.speakerId || '',
       })
-    } catch (err) {
-      setError('No se ha podido cargar el workshop.')
-      console.error(err)
+    } catch (error) {
+      setError('No se ha podido cargar el taller.')
+      console.error(error)
     } finally {
       setLoading(false)
     }
@@ -111,6 +111,7 @@ export default function AdminWorkshopForm() {
     console.error(error)
 
     const backendError = error.response?.data
+
     if (backendError?.message) {
       setError(backendError.message)
     } else if (backendError?.errors) {
@@ -127,7 +128,7 @@ export default function AdminWorkshopForm() {
   return (
     <section className="auth-card">
       <h1 className="page-title">
-        {isEditMode ? 'Editar workshop' : 'Crear workshop'}
+        {isEditMode ? 'Editar taller' : 'Crear taller'}
       </h1>
 
       <form className="simple-form" onSubmit={handleSubmit}>
@@ -245,7 +246,7 @@ export default function AdminWorkshopForm() {
             checked={formData.isOnline}
             onChange={handleChange}
           />
-          <label htmlFor="isOnline">Workshop online</label>
+          <label htmlFor="isOnline">Taller online</label>
         </div>
 
         {error && <p className="error-message">{error}</p>}
