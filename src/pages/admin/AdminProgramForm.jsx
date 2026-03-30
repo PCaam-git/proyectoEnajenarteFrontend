@@ -23,6 +23,7 @@ export default function AdminProgramForm() {
     hour: '',
     durationMinutes: '',
     confirmationDeadline: '',
+    price: '',
     minimumParticipants: '',
     maxCapacity: '',
     isOnline: false,
@@ -71,6 +72,7 @@ export default function AdminProgramForm() {
         hour: data.hour || '',
         durationMinutes: data.durationMinutes || '',
         confirmationDeadline: data.confirmationDeadline || '',
+        price: data.price || '',
         minimumParticipants: data.minimumParticipants || '',
         maxCapacity: data.maxCapacity || '',
         isOnline: data.isOnline,
@@ -106,6 +108,7 @@ export default function AdminProgramForm() {
       const payload = {
         ...formData,
         durationMinutes: Number(formData.durationMinutes),
+        price: Number(formData.price),
         minimumParticipants: Number(formData.minimumParticipants),
         maxCapacity: Number(formData.maxCapacity),
         speakerId: Number(formData.speakerId),
@@ -210,6 +213,16 @@ export default function AdminProgramForm() {
             name="durationMinutes"
             type="number"
             value={formData.durationMinutes}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="form-field">
+          <label>Precio</label>
+          <input
+            name="price"
+            type="number"
+            step="0.01"
+            value={formData.price}
             onChange={handleChange}
           />
         </div>

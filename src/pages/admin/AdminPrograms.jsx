@@ -89,6 +89,9 @@ export default function AdminPrograms() {
                   <span className="item-label">Duración:</span>{' '}
                   {program.durationMinutes} min
                 </p>
+                <p>
+                    <span className="item-label">Precio:</span>{program.price} €
+                </p>
 
                 <p>
                   <span className="item-label">Ubicación:</span>{' '}

@@ -70,6 +70,9 @@ export default function Programs() {
                     {program.durationMinutes} min
                   </p>
                   <p>
+                    <span className="item-label">Precio:</span>{program.price} €
+                  </p>
+                  <p>
                     <span className="item-label">Modalidad:</span>{' '}
                     {program.isOnline ? 'Online' : 'Presencial'}
                   </p>
