@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   createWorkshop,
+  getAllSpeakers,
   getWorkshopById,
   updateWorkshop,
 } from '../../services/adminService'
@@ -15,6 +16,7 @@ export default function AdminWorkshopForm() {
     name: '',
     description: '',
     startDate: '',
+    hour: '',
     confirmationDeadline: '',
     durationMinutes: '',
     price: '',
@@ -25,13 +27,25 @@ export default function AdminWorkshopForm() {
   })
 
   const [error, setError] = useState('')
+  const [speakers, setSpeakers] = useState([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    loadSpeakers()
+
     if (isEditMode) {
       loadWorkshop()
     }
   }, [id])
+
+  async function loadSpeakers() {
+    try {
+      const data = await getAllSpeakers()
+      setSpeakers(data || [])
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   async function loadWorkshop() {
     try {
@@ -44,6 +58,7 @@ export default function AdminWorkshopForm() {
         name: data.name || '',
         description: data.description || '',
         startDate: data.startDate || '',
+        hour: data.hour || '',
         confirmationDeadline: data.confirmationDeadline || '',
         durationMinutes: data.durationMinutes || '',
         price: data.price || '',
@@ -92,9 +107,18 @@ export default function AdminWorkshopForm() {
       }
 
       navigate('/admin/talleres')
-    } catch (err) {
-      setError('No se ha podido guardar el workshop.')
-      console.error(err)
+    } catch (error) {
+    console.error(error)
+
+    const backendError = error.response?.data
+    if (backendError?.message) {
+      setError(backendError.message)
+    } else if (backendError?.errors) {
+      const firstError = Object.values(backendError.errors)[0]
+     setError(firstError || 'No se ha podido guardar el taller.')
+    } else {
+      setError('No se ha podido guardar el taller.')
+    }
     } finally {
       setLoading(false)
     }
@@ -132,6 +156,16 @@ export default function AdminWorkshopForm() {
             name="startDate"
             type="date"
             value={formData.startDate}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-field">
+          <label>Hora de inicio</label>
+          <input
+            name="hour"
+            type="time"
+            value={formData.hour}
             onChange={handleChange}
           />
         </div>
@@ -188,13 +222,19 @@ export default function AdminWorkshopForm() {
         </div>
 
         <div className="form-field">
-          <label>Speaker ID</label>
-          <input
+          <label>Ponente</label>
+          <select
             name="speakerId"
-            type="number"
             value={formData.speakerId}
             onChange={handleChange}
-          />
+          >
+            <option value="">Selecciona un ponente</option>
+            {speakers.map((speaker) => (
+              <option key={speaker.id} value={speaker.id}>
+                {speaker.firstName} {speaker.lastName}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="checkbox-field">
