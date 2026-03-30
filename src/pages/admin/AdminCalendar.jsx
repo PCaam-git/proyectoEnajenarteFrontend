@@ -7,65 +7,71 @@ import {
   deleteAdminCalendar
 } from '../../services/adminService'
 
+// Componente para la gestión del calendario en el panel de administración
 export default function AdminCalendar() {
-  const [blocks, setBlocks] = useState([])
+  const [calendarEntries, setCalendarEntries] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   useEffect(() => {
-    loadBlocks()
+    loadCalendarEntries()
   }, [])
 
-  async function loadBlocks() {
+  // Función para cargar las entradas del calendario desde el backend
+  async function loadCalendarEntries() {
     try {
       setLoading(true)
       setError('')
 
       const data = await getAllAdminCalendar()
-      setBlocks(data || [])
-    } catch (err) {
+      setCalendarEntries(data || [])
+    } catch (error) {
       setError('No se ha podido cargar el calendario.')
-      console.error(err)
+      console.error(error)
     } finally {
       setLoading(false)
     }
   }
-
-  async function handleDelete(id) {
+  // Función para eliminar una entrada del calendario
+  async function handleDelete(entryId) {
     const confirmed = window.confirm('¿Quieres eliminar esta entrada?')
     if (!confirmed) return
 
     try {
-      await deleteAdminCalendar(id)
-      loadBlocks()
-    } catch (err) {
+      await deleteAdminCalendar(entryId)
+      loadCalendarEntries()
+    } catch (error) {
       setError('No se ha podido eliminar la entrada.')
-      console.error(err)
+      console.error(error)
     }
   }
 
-  function normalizeDate(date) {
-    const normalizedDate = new Date(date)
+  // Función para normalizar una fecha a medianoche (00:00:00) para comparaciones
+  function normalizeDate(dateValue) {
+    const normalizedDate = new Date(dateValue)
     normalizedDate.setHours(0, 0, 0, 0)
     return normalizedDate
   }
 
-  function getBlocksForDate(date) {
-    const currentDate = normalizeDate(date)
+  // Función para obtener las entradas del calendario que corresponden a una fecha específica
+  function getEntriesForDate(dateValue) {
+    const currentDate = normalizeDate(dateValue)
 
-    return blocks.filter((block) => {
-      const startDate = normalizeDate(block.startDate)
-      const endDate = normalizeDate(block.endDate)
+    return calendarEntries.filter((entry) => {
+      const startDate = normalizeDate(entry.startDate)
+      const endDate = normalizeDate(entry.endDate)
 
       return currentDate >= startDate && currentDate <= endDate
     })
   }
 
-  function isMultiDayBlock(block) {
-    return block.startDate !== block.endDate
+  // Función para determinar si una entrada del calendario abarca varios días
+  function isMultiDayEntry(entry) {
+    return entry.startDate !== entry.endDate
   }
 
+  // Función para obtener el color del marcador según la categoría de la entrada
   function getMarkerColor(category) {
     if (category === 'WORKSHOP') return '#F72C5B'
     if (category === 'PROGRAM') return '#A7D477'
@@ -74,6 +80,7 @@ export default function AdminCalendar() {
     return '#9CA3AF'
   }
 
+  // Función para obtener la etiqueta legible de la categoría
   function getCategoryLabel(category) {
     if (category === 'WORKSHOP') return 'Taller'
     if (category === 'PROGRAM') return 'Programa'
@@ -82,78 +89,86 @@ export default function AdminCalendar() {
     return 'Desconocido'
   }
 
-  function compareBlocksByHour(blockA, blockB) {
-    const hourA = blockA.hour || ' '
-    const hourB = blockB.hour || ' '
+  // Función para comparar dos entradas del calendario por su hora para ordenarlas
+  function compareEntriesByHour(firstEntry, secondEntry) {
+    const firstHour = firstEntry.hour || ' '
+    const secondHour = secondEntry.hour || ' '
 
-    return hourA.localeCompare(hourB)
+    return firstHour.localeCompare(secondHour)
   }
 
-  function openInGoogleCalendar(block) {
-    const startDateTime = `${block.startDate}T${block.hour}:00`
+  // Función para abrir una entrada del calendario en Google Calendar
+  function openInGoogleCalendar(entry) {
+    const startDateTime = `${entry.startDate}T${entry.hour}:00`
     const startDate = new Date(startDateTime)
 
     const endDate = new Date(startDate)
-    endDate.setMinutes(endDate.getMinutes() + block.durationMinutes)
+    endDate.setMinutes(endDate.getMinutes() + entry.durationMinutes)
 
-    function formatGoogleDate(date) {
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
-      const day = String(date.getDate()).padStart(2, '0')
-      const hours = String(date.getHours()).padStart(2, '0')
-      const minutes = String(date.getMinutes()).padStart(2, '0')
-      const seconds = String(date.getSeconds()).padStart(2, '0')
+    // Función para formatear una fecha en el formato requerido por Google Calendar
+    function formatGoogleDate(dateValue) {
+      const year = dateValue.getFullYear()
+      const month = String(dateValue.getMonth() + 1).padStart(2, '0')
+      const day = String(dateValue.getDate()).padStart(2, '0')
+      const hours = String(dateValue.getHours()).padStart(2, '0')
+      const minutes = String(dateValue.getMinutes()).padStart(2, '0')
+      const seconds = String(dateValue.getSeconds()).padStart(2, '0')
 
       return `${year}${month}${day}T${hours}${minutes}${seconds}`
     }
 
     const googleUrl = new URL('https://www.google.com/calendar/render')
     googleUrl.searchParams.set('action', 'TEMPLATE')
-    googleUrl.searchParams.set('text', block.title || 'Entrada de calendario')
-    googleUrl.searchParams.set('dates', `${formatGoogleDate(startDate)}/${formatGoogleDate(endDate)}`)
-    googleUrl.searchParams.set('details', block.description || '')
-    googleUrl.searchParams.set('location', block.speakerName || '')
+    googleUrl.searchParams.set('text', entry.title || 'Entrada de calendario')
+    googleUrl.searchParams.set(
+      'dates',
+      `${formatGoogleDate(startDate)}/${formatGoogleDate(endDate)}`
+    )
+    googleUrl.searchParams.set('details', entry.description || '')
+    googleUrl.searchParams.set('location', entry.speakerName || '')
 
     window.open(googleUrl.toString(), '_blank')
   }
 
-  function renderCalendarMarkers(date, view) {
+  // Función para renderizar los marcadores en el calendario según las entradas del día
+  function renderCalendarMarkers(dateValue, view) {
     if (view !== 'month') return null
 
-    const markers = getBlocksForDate(date)
+    const entriesForDate = getEntriesForDate(dateValue)
 
-    if (markers.length === 0) return null
+    if (entriesForDate.length === 0) return null
 
     return (
       <div className="mt-1 flex justify-center gap-1">
-        {markers.slice(0, 2).map((block) => {
-          const color = getMarkerColor(block.category)
+        {entriesForDate.slice(0, 2).map((entry) => {
+          const markerColor = getMarkerColor(entry.category)
 
-          return isMultiDayBlock(block) ? (
+          return isMultiDayEntry(entry) ? (
             <span
-              key={block.id}
+              key={entry.id}
               className="inline-block h-1 w-3 rounded"
-              style={{ backgroundColor: color }}
+              style={{ backgroundColor: markerColor }}
             ></span>
           ) : (
             <span
-              key={block.id}
+              key={entry.id}
               className="inline-block h-2 w-2 rounded-full"
-              style={{ backgroundColor: color }}
+              style={{ backgroundColor: markerColor }}
             ></span>
           )
         })}
 
-        {markers.length > 2 && (
+        {entriesForDate.length > 2 && (
           <span className="text-[10px] text-gray-600">
-            +{markers.length - 2}
+            +{entriesForDate.length - 2}
           </span>
         )}
       </div>
     )
   }
 
-  const filteredBlocks = getBlocksForDate(selectedDate).sort(compareBlocksByHour)
+  // Obtener las entradas del calendario para la fecha seleccionada y ordenarlas por hora
+  const selectedDateEntries = getEntriesForDate(selectedDate).sort(compareEntriesByHour)
 
   if (loading) {
     return <p className="empty-message">Cargando calendario...</p>
@@ -171,11 +186,11 @@ export default function AdminCalendar() {
 
       {error && <p className="error-message">{error}</p>}
 
-      {!error && blocks.length === 0 && (
+      {!error && calendarEntries.length === 0 && (
         <p className="empty-message">No hay entradas en el calendario.</p>
       )}
 
-      {!error && blocks.length > 0 && (
+      {!error && calendarEntries.length > 0 && (
         <>
           <div className="mt-6">
             <Calendar
@@ -219,53 +234,99 @@ export default function AdminCalendar() {
             </div>
           </div>
 
-          {filteredBlocks.length === 0 && (
+          {selectedDateEntries.length === 0 && (
             <p className="empty-message mt-6">
               No hay entradas para la fecha seleccionada.
             </p>
           )}
 
-          {filteredBlocks.length > 0 && (
+          {selectedDateEntries.length > 0 && (
             <div className="list-grid mt-6">
-              {filteredBlocks.map((block) => (
-                <article key={block.id} className="item-card">
-                  <h2 className="card-title">{block.title}</h2>
+              {selectedDateEntries.map((entry) => (
+                <article key={entry.id} className="item-card">
+                  <h2 className="card-title">{entry.title}</h2>
 
                   <div className="item-data">
-                    <p>
-                      <span className="item-label">Inicio:</span>{' '}
-                      {new Date(block.startDate).toLocaleDateString('es-ES')}
-                    </p>
+                    {entry.category === 'WORKSHOP' && (
+                      <>
+                        <p>
+                          <span className="item-label">Fecha:</span>{' '}
+                          {new Date(entry.startDate).toLocaleDateString('es-ES')}
+                        </p>
+                        <p>
+                          <span className="item-label">Hora:</span> {entry.hour}
+                        </p>
+                        <p>
+                          <span className="item-label">Duración:</span>{' '}
+                          {entry.durationMinutes} min
+                        </p>
+                      </>
+                    )}
+
+                    {entry.category === 'PROGRAM' && (
+                      <>
+                        <p>
+                          <span className="item-label">Inicio:</span>{' '}
+                          {new Date(entry.startDate).toLocaleDateString('es-ES')}
+                        </p>
+                        <p>
+                          <span className="item-label">Fin:</span>{' '}
+                          {new Date(entry.endDate).toLocaleDateString('es-ES')}
+                        </p>
+                        <p>
+                          <span className="item-label">Hora:</span> {entry.hour}
+                        </p>
+                      </>
+                    )}
+
+                    {entry.category === 'EVENT' && (
+                      <>
+                        <p>
+                          <span className="item-label">Fecha:</span>{' '}
+                          {new Date(entry.startDate).toLocaleDateString('es-ES')}
+                        </p>
+                        <p>
+                          <span className="item-label">Hora:</span> {entry.hour}
+                        </p>
+                      </>
+                    )}
+
+                    {entry.category === 'PERSONAL' && (
+                      <>
+                        <p>
+                          <span className="item-label">Inicio:</span>{' '}
+                          {new Date(entry.startDate).toLocaleDateString('es-ES')}
+                        </p>
+                        <p>
+                          <span className="item-label">Fin:</span>{' '}
+                          {new Date(entry.endDate).toLocaleDateString('es-ES')}
+                        </p>
+                        <p>
+                          <span className="item-label">Hora:</span> {entry.hour}
+                        </p>
+                        <p>
+                          <span className="item-label">Duración:</span>{' '}
+                          {entry.durationMinutes} min
+                        </p>
+                      </>
+                    )}
 
                     <p>
-                      <span className="item-label">Fin:</span>{' '}
-                      {new Date(block.endDate).toLocaleDateString('es-ES')}
+                      <span className="item-label">Tipo:</span>{' '}
+                      {getCategoryLabel(entry.category)}
                     </p>
 
-                    <p>
-                      <span className="item-label">Hora:</span> {block.hour}
-                    </p>
-
-                    <p>
-                      <span className="item-label">Duración:</span>{' '}
-                      {block.durationMinutes} min
-                    </p>
-
-                    <p>
-                      <span className="item-label">Tipo:</span> {getCategoryLabel(block.category)}
-                    </p>
-
-                    {block.speakerName && (
+                    {entry.speakerName && (
                       <p>
                         <span className="item-label">Ponente:</span>{' '}
-                        {block.speakerName}
+                        {entry.speakerName}
                       </p>
                     )}
                   </div>
 
                   <div className="admin-actions">
                     <Link
-                      to={`/admin/calendario/editar/${block.id}`}
+                      to={`/admin/calendario/editar/${entry.id}`}
                       className="primary-button"
                     >
                       Editar
@@ -274,7 +335,7 @@ export default function AdminCalendar() {
                     <button
                       type="button"
                       className="secondary-button"
-                      onClick={() => openInGoogleCalendar(block)}
+                      onClick={() => openInGoogleCalendar(entry)}
                     >
                       Google Calendar
                     </button>
@@ -282,7 +343,7 @@ export default function AdminCalendar() {
                     <button
                       type="button"
                       className="danger-button"
-                      onClick={() => handleDelete(block.id)}
+                      onClick={() => handleDelete(entry.id)}
                     >
                       Eliminar
                     </button>
