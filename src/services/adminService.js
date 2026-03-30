@@ -116,6 +116,34 @@ export async function deleteWorkshop(id) {
   await api.delete(`/workshops/${id}`)
 }
 
+// PROGRAMS
+export async function getAllPrograms() {
+  const response = await api.get('/programs', {
+    validateStatus: (status) => status === 200 || status === 204,
+  })
+
+  return getDataOrEmptyArray(response)
+}
+
+export async function getProgramById(id) {
+  const response = await api.get(`/programs/${id}`)
+  return response.data
+}
+
+export async function createProgram(programData) {
+  const response = await api.post('/programs', programData)
+  return response.data
+}
+
+export async function updateProgram(id, programData) {
+  const response = await api.put(`/programs/${id}`, programData)
+  return response.data
+}
+
+export async function deleteProgram(id) {
+  await api.delete(`/programs/${id}`)
+}
+
 // REGISTRATIONS
 export async function getAllRegistrations() {
   const response = await api.get('/registrations', {
