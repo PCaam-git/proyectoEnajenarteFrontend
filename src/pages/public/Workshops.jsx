@@ -51,8 +51,8 @@ export default function Workshops() {
       }
 
       await createWorkshopRegistration(payload)
-      setActionSuccess('Inscripción realizada correctamente.')
-      navigate('/mis-inscripciones')
+      setActionSuccess('Inscripción realizada correctamente. Puedes consultar el detalle de tu inscripción en el apartado <i>Mis Inscripciones</i> de tu perfil')
+      
     } catch (error) {
       const backendError = error.response?.data
 

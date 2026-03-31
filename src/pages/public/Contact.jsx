@@ -4,18 +4,16 @@ import { getAllWorkshops } from '../../services/workshopService'
 import { getAllPrograms } from '../../services/programService'
 
 export default function Contact() {
-
   const [form, setForm] = useState({
     fullName: '',
     email: '',
     category: 'WORKSHOP',
     referenceId: '',
-    message: ''
+    message: '',
   })
 
   const [workshops, setWorkshops] = useState([])
   const [programs, setPrograms] = useState([])
-
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
@@ -29,8 +27,8 @@ export default function Contact() {
     try {
       const data = await getAllWorkshops()
       setWorkshops(data || [])
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -38,28 +36,31 @@ export default function Contact() {
     try {
       const data = await getAllPrograms()
       setPrograms(data || [])
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
     }
-}
-
-  function handleChange(e) {
-    const { name, value } = e.target
-
-    if (name === 'category') {
-       setForm({
-        ...form,
-        category: value,
-        referenceId: ''
-       })
-       return
   }
 
-  setForm({ ...form, [name]: value })
-}
+  function handleChange(event) {
+    const { name, value } = event.target
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+    if (name === 'category') {
+      setForm({
+        ...form,
+        category: value,
+        referenceId: '',
+      })
+      return
+    }
+
+    setForm({
+      ...form,
+      [name]: value,
+    })
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
 
     try {
       setLoading(true)
@@ -68,18 +69,17 @@ export default function Contact() {
 
       await sendContactMessage(form)
 
-      setSuccess('Mensaje enviado correctamente')
+      setSuccess('Mensaje enviado correctamente.')
       setForm({
         fullName: '',
         email: '',
         category: 'WORKSHOP',
         referenceId: '',
-        message: ''
+        message: '',
       })
-
-    } catch (err) {
-      setError('No se ha podido enviar el mensaje')
-      console.error(err)
+    } catch (error) {
+      setError('No se ha podido enviar el mensaje.')
+      console.error(error)
     } finally {
       setLoading(false)
     }
@@ -88,64 +88,86 @@ export default function Contact() {
   const currentList = form.category === 'WORKSHOP' ? workshops : programs
 
   return (
-    <section className="page-card max-w-xl mx-auto">
-      <h1 className="page-title">Contacto</h1>
+    <section className="page-card max-w-3xl mx-auto">
+      <div className="text-center">
+        <span className="hero-tag">Contacto</span>
+        <h1 className="page-title mt-4">Cuéntanos en qué podemos ayudarte</h1>
+        <p className="page-text mt-4">
+          Puedes escribirnos para consultar información sobre talleres,
+          programas y propuestas de EnajenArte. Te responderemos de forma
+          cercana y personalizada.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <div className="form-field">
+          <label>Nombre completo</label>
+          <input
+            type="text"
+            name="fullName"
+            value={form.fullName}
+            onChange={handleChange}
+            className="input"
+            placeholder="Tu nombre completo"
+            required
+          />
+        </div>
 
-        <input
-          type="text"
-          name="fullName"
-          placeholder="Nombre completo"
-          value={form.fullName}
-          onChange={handleChange}
-          className="input"
-          required
-        />
+        <div className="form-field">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            className="input"
+            placeholder="tu@email.com"
+            required
+          />
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="input"
-          required
-        />
+        <div className="form-field">
+          <label>Tipo de consulta</label>
+          <select
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            className="input"
+          >
+            <option value="WORKSHOP">Taller</option>
+            <option value="PROGRAM">Programa</option>
+          </select>
+        </div>
 
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          className="input"
-        >
-          <option value="WORKSHOP">Taller</option>
-          <option value="PROGRAM">Programa</option>
-        </select>
+        <div className="form-field">
+          <label>Selecciona una opción</label>
+          <select
+            name="referenceId"
+            value={form.referenceId}
+            onChange={handleChange}
+            className="input"
+            required
+          >
+            <option value="">Selecciona una opción</option>
+            {currentList.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          name="referenceId"
-          value={form.referenceId}
-          onChange={handleChange}
-          className="input"
-          required
-        >
-          <option value="">Selecciona una opción</option>
-          {currentList.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-
-        <textarea
-          name="message"
-          placeholder="Escribe tu mensaje"
-          value={form.message}
-          onChange={handleChange}
-          className="input"
-          required
-        />
+        <div className="form-field">
+          <label>Mensaje</label>
+          <textarea
+            name="message"
+            value={form.message}
+            onChange={handleChange}
+            className="form-textarea"
+            placeholder="Escribe tu mensaje"
+            required
+          />
+        </div>
 
         <button type="submit" className="primary-button" disabled={loading}>
           {loading ? 'Enviando...' : 'Enviar'}

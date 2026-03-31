@@ -29,6 +29,7 @@ export function AuthProvider({ children }) {
   const receivedToken = authData.token
 
   const receivedUser = {
+    id: authData.id,
     username: authData.username,
     role: authData.role,
   }

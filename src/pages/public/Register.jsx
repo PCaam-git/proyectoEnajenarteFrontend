@@ -13,7 +13,9 @@ export default function Register() {
     password: '',
     email: '',
     fullName: '',
-    age: '',
+    phone: '',
+    gender: '',
+    ageGroup: '',
   })
 
   const [error, setError] = useState('')
@@ -40,7 +42,9 @@ export default function Register() {
         password: formData.password,
         email: formData.email,
         fullName: formData.fullName,
-        age: Number(formData.age),
+        phone: Number(formData.phone),
+        gender: formData.gender,
+        ageGroup: formData.ageGroup,
       }
 
       await registerUser(registerPayload)
@@ -58,15 +62,17 @@ export default function Register() {
       } else {
         navigate('/perfil')
       }
-    } catch (err) {
-      if (err?.errors) {
-        const messages = Object.values(err.errors).join(', ')
+    } catch (error) {
+      if (error?.errors) {
+        const messages = Object.values(error.errors).join(', ')
         setError(messages)
       } else {
-        setError('Usuario creado correctamente, pero no se pudo iniciar sesión automáticamente. Por favor, intenta iniciar sesión manualmente.')
+        setError(
+          'Usuario creado correctamente, pero no se pudo iniciar sesión automáticamente. Por favor, intenta iniciar sesión manualmente.'
+        )
       }
 
-      console.error(err)
+      console.error(error)
     } finally {
       setLoading(false)
     }
@@ -74,7 +80,14 @@ export default function Register() {
 
   return (
     <section className="auth-card">
-      <h1 className="page-title">Registro</h1>
+      <div className="text-center">
+        <span className="hero-tag">Registro</span>
+        <h1 className="page-title mt-4">Crea tu cuenta en EnajenArte</h1>
+        <p className="page-text mt-4">
+          Regístrate para acceder a tu espacio personal y poder apuntarte a las
+          propuestas de EnajenArte.
+        </p>
+      </div>
 
       <form className="simple-form" onSubmit={handleSubmit}>
         <div className="form-field">
@@ -114,15 +127,51 @@ export default function Register() {
         </div>
 
         <div className="form-field">
-          <label htmlFor="age">Edad</label>
+          <label htmlFor="phone">Teléfono</label>
           <input
-            id="age"
-            name="age"
+            id="phone"
+            name="phone"
             type="number"
-            value={formData.age}
+            value={formData.phone}
             onChange={handleChange}
-            placeholder="Tu edad"
+            placeholder="Tu teléfono"
           />
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="gender">Género</label>
+          <select
+            id="gender"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+          >
+            <option value="">Selecciona una opción</option>
+            <option value="FEMALE">Femenino</option>
+            <option value="MALE">Masculino</option>
+            <option value="OTHER">Otro</option>
+            <option value="PREFER_NOT_TO_SAY">Prefiero no contestar</option>
+          </select>
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="ageGroup">Grupo de edad</label>
+          <select
+            id="ageGroup"
+            name="ageGroup"
+            value={formData.ageGroup}
+            onChange={handleChange}
+          >
+            <option value="">Selecciona una opción</option>
+            <option value="UNDER_18">Menos de 18</option>
+            <option value="BETWEEN_18_24">18-24</option>
+            <option value="BETWEEN_25_34">25-34</option>
+            <option value="BETWEEN_35_44">35-44</option>
+            <option value="BETWEEN_45_54">45-54</option>
+            <option value="BETWEEN_55_64">55-64</option>
+            <option value="OVER_65">65 o más</option>
+            <option value="PREFER_NOT_TO_SAY">Prefiero no contestar</option>
+          </select>
         </div>
 
         <div className="form-field">

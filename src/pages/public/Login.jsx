@@ -34,16 +34,14 @@ export default function Login() {
       const data = await loginUser(formData)
       login(data)
 
-      const role = data.role
-
-      if (role === 'ADMIN') {
+      if (data.role === 'ADMIN') {
         navigate('/admin')
       } else {
         navigate('/perfil')
       }
-    } catch (err) {
+    } catch (error) {
       setError('Usuario o contraseña incorrectos.')
-      console.error(err)
+      console.error(error)
     } finally {
       setLoading(false)
     }
@@ -51,7 +49,14 @@ export default function Login() {
 
   return (
     <section className="auth-card">
-      <h1 className="page-title">Iniciar sesión</h1>
+      <div className="text-center">
+        <span className="hero-tag">Acceso</span>
+        <h1 className="page-title mt-4">Inicia sesión en EnajenArte</h1>
+        <p className="page-text mt-4">
+          Accede a tu espacio personal para consultar tu perfil y gestionar tus
+          inscripciones.
+        </p>
+      </div>
 
       <form className="simple-form" onSubmit={handleSubmit}>
         <div className="form-field">

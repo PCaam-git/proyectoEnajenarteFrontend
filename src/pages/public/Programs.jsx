@@ -1,12 +1,52 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAllPrograms } from '../../services/programService'
+import { useAuth } from '../../context/AuthContext'
+import { createProgramRegistration } from '../../services/programRegistrationService'
 
 export default function Programs() {
   const [programs, setPrograms] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const { user, token, isAuthenticated } = useAuth()
+  const [actionError, setActionError] = useState('')
+  const [actionSuccess, setActionSuccess] = useState('')
+  const navigate = useNavigate()
 
+
+  // Función para manejar la inscripción a un programa
+  async function handleRegister(programId) {
+    try {
+      if (!user) {
+        navigate('/login')
+        return
+      }
+
+      // Crear el payload para la inscripción
+      const payload = {
+        numberOfTickets: 1,
+        userId: user.id,
+        programId: programId,
+        paymentStatus: 'PENDING',
+      }
+
+      await createProgramRegistration(payload, token)
+      setActionSuccess('Inscripción realizada correctamente. Puedes consultar el detalle de tu inscripción en el apartado <i>Mis Inscripciones</i> de tu perfil')
+      
+    } catch (error) {
+      const backendError = error.response?.data
+
+      if (backendError?.message) {
+        setActionError(backendError.message)
+      } else {
+        setActionError('No se ha podido realizar la inscripción.')
+      }
+
+      console.error(error)
+    }
+  }
+
+  // Cargar los programas al montar el componente
   useEffect(() => {
     loadPrograms()
   }, [])
@@ -31,7 +71,9 @@ export default function Programs() {
       <section className="hero-small">
         <span className="hero-tag">Programas</span>
 
-        <h1 className="page-title mt-4">Procesos de bienestar para explorar y transformar</h1>
+        <h1 className="page-title mt-4">
+          Procesos de bienestar para explorar y transformar
+        </h1>
 
         <p className="page-text mt-4">
           En EnajenArte entendemos los programas como recorridos de
@@ -58,59 +100,98 @@ export default function Programs() {
         )}
 
         {!loading && !error && programs.length > 0 && (
-          <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 md:grid-cols-3">
             {programs.map((program) => (
-              <article key={program.id} className="item-card">
-                <span className="service-label">Programa</span>
+              <article
+                key={program.id}
+                className="group h-[440px] w-full max-w-xs [perspective:1200px]"
+              >
+                <div
+                  className="relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]"
+                >
+                  {/* Cara frontal */}
+                  <div className="absolute inset-0 rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm [backface-visibility:hidden]">
+                    <span className="service-label">Programa</span>
 
-                <h2 className="card-title mt-3">{program.name}</h2>
+                    <h2 className="card-title mt-3">{program.name}</h2>
 
-                <p className="page-text mt-3">{program.description}</p>
-
-                <div className="item-data">
-                  <p>
-                    <span className="item-label">Inicio:</span>{' '}
-                    {new Date(program.initDate).toLocaleDateString('es-ES')}
-                  </p>
-
-                  <p>
-                    <span className="item-label">Fin:</span>{' '}
-                    {new Date(program.finishDate).toLocaleDateString('es-ES')}
-                  </p>
-
-                  <p>
-                    <span className="item-label">Hora:</span> {program.hour}
-                  </p>
-
-                  <p>
-                    <span className="item-label">Duración:</span>{' '}
-                    {program.durationMinutes} min
-                  </p>
-
-                  <p>
-                    <span className="item-label">Precio:</span> {program.price} €
-                  </p>
-
-                  <p>
-                    <span className="item-label">Modalidad:</span>{' '}
-                    {program.isOnline ? 'Online' : 'Presencial'}
-                  </p>
-
-                  <p>
-                    <span className="item-label">Estado:</span> {program.status}
-                  </p>
-
-                  {program.speakerName && (
-                    <p>
-                      <span className="item-label">Ponente:</span>{' '}
-                      {program.speakerName}
+                    <p className="page-text mt-4 line-clamp-5">
+                      {program.description}
                     </p>
-                  )}
-                </div>
 
-                <Link to="/contacto" className="primary-button mt-5">
-                  ¡Me apunto!
-                </Link>
+                    <p className="mt-4 text-sm text-[var(--color-text-soft)]">
+                      Gira la tarjeta para ver los detalles.
+                    </p>
+
+                    <div className="mt-6">
+                      <button
+                        type="button"
+                        className="primary-button"
+                        onClick={() => handleRegister(program.id)}
+                      >
+                        Me apunto
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Cara trasera */}
+                  <div className="absolute inset-0 rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-surface-soft)] p-5 shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <h3 className="card-title">Detalles</h3>
+
+                    <div className="mt-4 max-h-[280px] overflow-y-auto pr-2">
+                      <p className="page-text mt-2">{program.description}</p>
+
+                      <div className="item-data mt-4">
+                        <p>
+                          <span className="item-label">Inicio:</span>{' '}
+                          {new Date(program.initDate).toLocaleDateString('es-ES')}
+                        </p>
+
+                        <p>
+                          <span className="item-label">Fin:</span>{' '}
+                          {new Date(program.finishDate).toLocaleDateString('es-ES')}
+                        </p>
+
+                        <p>
+                          <span className="item-label">Hora:</span> {program.hour}
+                        </p>
+
+                        <p>
+                          <span className="item-label">Duración:</span>{' '}
+                          {program.durationMinutes} min
+                        </p>
+
+                        <p>
+                          <span className="item-label">Precio:</span> {program.price} €
+                        </p>
+
+                        <p>
+                          <span className="item-label">Modalidad:</span>{' '}
+                          {program.isOnline ? 'Online' : 'Presencial'}
+                        </p>
+
+                        <p>
+                          <span className="item-label">Estado:</span> {program.status}
+                        </p>
+
+                        {program.speakerName && (
+                          <p>
+                            <span className="item-label">Ponente:</span>{' '}
+                            {program.speakerName}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="primary-button"
+                      onClick={() => handleRegister(program.id)}
+                    >
+                      Me apunto
+                    </button>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
