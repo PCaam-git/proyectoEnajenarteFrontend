@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getAllWorkshops } from '../../services/workshopService'
+import { Link } from 'react-router-dom'
 
 export default function Workshops() {
   const [workshops, setWorkshops] = useState([])
@@ -16,10 +17,10 @@ export default function Workshops() {
       setError('')
 
       const data = await getAllWorkshops()
-      setWorkshops(data)
-    } catch (err) {
+      setWorkshops(data || [])
+    } catch (error) {
       setError('No se han podido cargar los talleres.')
-      console.error(err)
+      console.error(error)
     } finally {
       setLoading(false)
     }
@@ -28,9 +29,21 @@ export default function Workshops() {
   return (
     <>
       <section className="hero-small">
-        <h1 className="page-title">Talleres</h1>
-        <p className="page-text">
-          Espacios de bienestar y creatividad para particulares.
+        <span className="hero-tag">Talleres</span>
+
+        <h1 className="page-title mt-4">Espacios para crear, sentir y compartir</h1>
+
+        <p className="page-text mt-4">
+          En EnajenArte entendemos los talleres como experiencias de bienestar y
+          creatividad en las que la palabra, la emoción, la escucha y la
+          expresión artística ayudan a abrir nuevos caminos personales y
+          colectivos.
+        </p>
+
+        <p className="page-text mt-4">
+          Cada propuesta busca acompañar procesos desde una mirada cercana y
+          humana, generando espacios seguros en los que poder explorar, pensar,
+          sentir y transformar.
         </p>
       </section>
 
@@ -49,30 +62,40 @@ export default function Workshops() {
           <div className="list-grid">
             {workshops.map((workshop) => (
               <article key={workshop.id} className="item-card">
-                <h2 className="card-title">{workshop.name}</h2>
+                <span className="service-label">Taller</span>
 
-                <p className="page-text mt-2">{workshop.description}</p>
+                <h2 className="card-title mt-3">{workshop.name}</h2>
+
+                <p className="page-text mt-3">{workshop.description}</p>
 
                 <div className="item-data">
                   <p>
-                    <span className="item-label">Inicio:</span>{' '}
+                    <span className="item-label">Fecha:</span>{' '}
                     {new Date(workshop.startDate).toLocaleDateString('es-ES')}
                   </p>
+
                   <p>
                     <span className="item-label">Duración:</span>{' '}
                     {workshop.durationMinutes} min
                   </p>
+
                   <p>
                     <span className="item-label">Precio:</span> {workshop.price} €
                   </p>
+
                   <p>
                     <span className="item-label">Modalidad:</span>{' '}
                     {workshop.isOnline ? 'Online' : 'Presencial'}
                   </p>
+
                   <p>
                     <span className="item-label">Estado:</span> {workshop.status}
                   </p>
                 </div>
+
+                <Link to="/contacto" className="primary-button mt-5">
+                  Más información
+                </Link>
               </article>
             ))}
           </div>
