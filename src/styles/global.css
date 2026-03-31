@@ -1,18 +1,23 @@
 @import "tailwindcss";
 
+/* Fondo blanco roto, texto gris oscuro, acentos en rosa vibrante y verde suave. Tarjetas suaves y redondeadas. Formulario y listados con una base visual unificada*/
+
 :root {
-  --color-background: #faf6f2;
-  --color-surface: #fffaf7;
-  --color-surface-strong: #f3e7df;
-  --color-primary: #c97b63;
-  --color-primary-dark: #8e5545;
-  --color-text: #3f332f;
-  --color-text-soft: #6f625d;
-  --color-border: #e6d7cf;
+  --color-background: #fffaf7; 
+  --color-surface: #ffffff;
+  --color-surface-soft: #fff6ef;
+  --color-surface-highlight: #e4f1ac;
+  --color-primary: #f72c5b;
+  --color-primary-soft: #ff748b;
+  --color-secondary: #a7d477;
+  --color-text: #2f2a2c;
+  --color-text-soft: #5f585b;
+  --color-border: #f3ddd9;
 }
 
 html {
   font-family: Inter, system-ui, sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -27,32 +32,36 @@ body {
 }
 
 a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  @apply min-h-screen bg-[var(--color-background)] text-[var(--color-text)];
 }
 
 .page-card {
-  @apply rounded-3xl border border-[var(--color-border)] bg-white p-6 shadow-sm;
+  @apply rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm;
 }
 
 .page-title {
-  @apply text-3xl font-semibold tracking-tight text-[var(--color-primary-dark)];
+  @apply text-3xl font-semibold tracking-tight text-[var(--color-text)] sm:text-4xl;
+}
+
+.section-title {
+  @apply text-2xl font-semibold tracking-tight text-[var(--color-text)];
 }
 
 .page-text {
-  @apply mt-3 text-base leading-7 text-[var(--color-text-soft)];
+  @apply text-base leading-7 text-[var(--color-text-soft)];
 }
 
-.section-grid {
-  @apply mt-6 grid gap-4 md:grid-cols-2;
-}
-
-.info-box {
-  @apply rounded-2xl bg-[var(--color-surface)] p-4;
+.card-title {
+  @apply text-xl font-semibold text-[var(--color-text)];
 }
 
 .hero-section {
-  @apply rounded-3xl border border-[var(--color-border)] bg-white px-6 py-10 shadow-sm;
+  @apply rounded-[2.5rem] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-12 shadow-sm sm:px-10;
 }
 
 .hero-box {
@@ -60,86 +69,35 @@ a {
 }
 
 .hero-tag {
-  @apply text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-primary)];
+  @apply inline-flex rounded-full bg-[var(--color-surface-highlight)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text)];
 }
 
 .hero-title {
-  @apply mt-3 text-4xl font-semibold tracking-tight text-[var(--color-primary-dark)] sm:text-5xl;
+  @apply mt-5 text-4xl font-semibold tracking-tight text-[var(--color-text)] sm:text-5xl lg:text-6xl;
 }
 
 .hero-subtitle {
-  @apply mx-auto mt-4 max-w-3xl text-lg leading-8 text-[var(--color-text-soft)];
-}
-
-.section-title {
-  @apply text-2xl font-semibold tracking-tight text-[var(--color-primary-dark)];
-}
-
-.card-title {
-  @apply text-xl font-semibold text-[var(--color-primary-dark)];
-}
-
-.quote-text {
-  @apply mt-4 italic text-[var(--color-text-soft)];
-}
-
-.service-icon {
-  @apply text-3xl;
-}
-
-.service-label {
-  @apply mt-2 text-sm font-semibold uppercase tracking-wide text-[var(--color-primary)];
-}
-
-.primary-button {
-  @apply rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90;
+  @apply mx-auto mt-5 max-w-3xl text-lg leading-8 text-[var(--color-text-soft)];
 }
 
 .hero-small {
-  @apply rounded-3xl border border-[var(--color-border)] bg-white px-6 py-8 shadow-sm;
+  @apply rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-8 shadow-sm;
 }
 
-.empty-message {
-  @apply text-base leading-7 text-[var(--color-text-soft)];
+.section-grid {
+  @apply mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3;
 }
 
-.auth-card {
-  @apply mx-auto max-w-xl rounded-3xl border border-[var(--color-border)] bg-white p-6 shadow-sm;
+.info-box {
+  @apply rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-surface-soft)] p-5 transition duration-200 hover:-translate-y-1 hover:shadow-md;
 }
 
-.simple-form {
-  @apply mt-6 flex flex-col gap-4;
-}
-
-.form-field {
-  @apply flex flex-col gap-2;
-}
-
-.form-field label {
-  @apply text-sm font-medium text-[var(--color-text)];
-}
-
-.form-field input {
-  @apply rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[var(--color-text)] outline-none;
-}
-
-.auth-text {
-  @apply mt-6 text-sm text-[var(--color-text-soft)];
-}
-
-.auth-text a {
-  @apply font-medium text-[var(--color-primary-dark)];
-}
-
-.avatar-circle {
-  @apply mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-primary)] text-lg font-semibold text-white;
-}
 .list-grid {
-  @apply grid gap-4;
+  @apply grid gap-5;
 }
 
 .item-card {
-  @apply rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5;
+  @apply rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm;
 }
 
 .item-data {
@@ -150,18 +108,74 @@ a {
   @apply font-semibold text-[var(--color-text)];
 }
 
+.empty-message {
+  @apply text-base leading-7 text-[var(--color-text-soft)];
+}
+
 .error-message {
   @apply text-base font-medium text-red-600;
 }
 
-.mt-6 {
-  margin-top: 1.5rem;
+.quote-text {
+  @apply mt-4 text-sm italic text-[var(--color-text-soft)];
+}
+
+.service-label {
+  @apply mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)];
+}
+
+.avatar-circle {
+  @apply mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-primary)] text-lg font-semibold text-white;
+}
+
+.primary-button {
+  @apply inline-flex items-center justify-center rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-medium text-white transition hover:bg-[var(--color-primary-soft)];
+}
+
+.secondary-button {
+  @apply inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-5 py-3 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-soft)];
+}
+
+.danger-button {
+  @apply inline-flex items-center justify-center rounded-full bg-[var(--color-text)] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90;
+}
+
+.auth-card {
+  @apply mx-auto max-w-2xl rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm;
+}
+
+.simple-form {
+  @apply mt-6 flex flex-col gap-4;
+}
+
+.form-field {
+  @apply flex flex-col gap-2;
+}
+
+.form-field label,
+.form-label {
+  @apply text-sm font-medium text-[var(--color-text)];
+}
+
+.form-field input,
+.form-field select,
+.input {
+  @apply w-full rounded-2xl border border-[var(--color-border)] bg-white px-4 py-3 text-[var(--color-text)] outline-none transition focus:border-[var(--color-primary-soft)];
+}
+
+.form-textarea,
+textarea.input {
+  @apply min-h-28 w-full rounded-2xl border border-[var(--color-border)] bg-white px-4 py-3 text-[var(--color-text)] outline-none transition focus:border-[var(--color-primary-soft)];
 }
 
 .checkbox-field {
   @apply flex items-center gap-3;
 }
 
-.form-textarea {
-  @apply min-h-28 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-[var(--color-text)] outline-none;
+.admin-header {
+  @apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.admin-actions {
+  @apply mt-5 flex flex-wrap gap-3;
 }
