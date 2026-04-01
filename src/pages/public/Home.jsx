@@ -80,13 +80,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="page-card mt-8">
+            <section className="page-card mt-8">
         <h2 className="section-title">Qué ofrecemos</h2>
 
-        <div className="section-grid">
+        <div className="section-grid md:grid-cols-2 xl:grid-cols-4">
           <article className="info-box">
             <p className="service-label">Talleres</p>
-          
 
             <p className="page-text mt-3">
               Propuestas centradas en el bienestar, la escritura, la emoción y
@@ -103,9 +102,8 @@ export default function Home() {
             <p className="service-label">Programas</p>
 
             <p className="page-text mt-3">
-              Programas orientados a centros, asociaciones y organizaciones que
-              buscan trabajar el bienestar integral a través de dinámicas
-              creativas y emocionales.
+              Procesos de acompañamiento y bienestar pensados para crear
+              experiencias sostenidas, humanas y transformadoras.
             </p>
 
             <Link to="/programas" className="primary-button mt-5">
@@ -117,13 +115,26 @@ export default function Home() {
             <p className="service-label">Biblioteca Viva</p>
 
             <p className="page-text mt-3">
-              Una propuesta para rescatar historias, testimonios y patrimonio
-              emocional, poniendo en valor la identidad de las personas y los
-              lugares.
+              Una propuesta para recuperar la memoria, las tradiciones y la
+              identidad de los lugares a través de historias con valor humano y
+              cultural.
             </p>
 
-            <Link to="/contacto" className="primary-button mt-5">
-              Consultar
+            <Link to="/biblioteca-viva" className="primary-button mt-5">
+              Más información
+            </Link>
+          </article>
+
+          <article className="info-box">
+            <p className="service-label">Salud L-Mental</p>
+
+            <p className="page-text mt-3">
+              Espacios de charla, escucha y reflexión para trabajar el bienestar
+              mental desde una mirada cercana, consciente y sin estigmas.
+            </p>
+
+            <Link to="/salud-l-mental" className="primary-button mt-5">
+              Más información
             </Link>
           </article>
         </div>

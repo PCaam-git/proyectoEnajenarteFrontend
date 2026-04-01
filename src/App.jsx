@@ -9,6 +9,8 @@ import Events from './pages/public/Events'
 import Workshops from './pages/public/Workshops'
 import Programs from './pages/public/Programs'
 import Contact from './pages/public/Contact'
+import BibliotecaViva from './pages/public/BibliotecaViva'
+import SaludLMental from './pages/public/SaludLMental'
 import WorkshopRegistrationForm from './pages/public/WorkshopRegistrationForm'
 import ProgramRegistrationForm from './pages/public/ProgramRegistrationForm'
 
@@ -43,6 +45,9 @@ export default function App() {
           <Route path="/eventos" element={<Events />} />
           <Route path="/talleres" element={<Workshops />} />
           <Route path="/programas" element={<Programs />} />
+          <Route path="/biblioteca-viva" element={<BibliotecaViva />} />
+          <Route path="/salud-l-mental" element={<SaludLMental />} />
+          
           
 
           <Route
