@@ -38,7 +38,7 @@ export default function Footer() {
             <br />
             <Link to="/politica-de-privacidad">Política de privacidad</Link>
             <br />
-            <Link to="/login">Inicio de sesión</Link>
+            <Link to="/login">Mi cuenta</Link>
           </div>
         </div>
 

@@ -25,6 +25,7 @@ import AdminEvents from './pages/admin/AdminEvents'
 import AdminWorkshops from './pages/admin/AdminWorkshops'
 import AdminPrograms from './pages/admin/AdminPrograms'
 import AdminRegistrations from './pages/admin/AdminRegistrations'
+import AdminProgramRegistrations from './pages/admin/AdminProgramRegistrations'
 import AdminCalendar from './pages/admin/AdminCalendar'
 
 import AdminUserForm from './pages/admin/AdminUserForm'
@@ -215,6 +216,14 @@ export default function App() {
             element={
               <ProgramRegistrationForm />
             } 
+          />
+          <Route
+            path="/admin/inscripciones-programas"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminProgramRegistrations />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/admin/calendario"

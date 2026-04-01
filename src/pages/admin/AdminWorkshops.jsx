@@ -48,7 +48,7 @@ export default function AdminWorkshops() {
       <div className="admin-header">
         <h1 className="page-title">Talleres</h1>
         <Link to="/admin/talleres/nuevo" className="primary-button">
-          Crear workshop
+          Crear taller
         </Link>
       </div>
 

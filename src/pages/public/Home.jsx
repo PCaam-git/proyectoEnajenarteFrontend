@@ -67,7 +67,7 @@ export default function Home() {
           desde una mirada cercana, humana y transformadora.
         </p>
 
-        <div className="section-grid mt-8 md:grid-cols-2">
+        <div className="mx-auto mt-8 grid max-w-4xl gap-5 md:grid-cols-2">
           <article className="info-box">
             <div className="avatar-circle">CG</div>
             <h3 className="card-title">Cristinica Gómez</h3>

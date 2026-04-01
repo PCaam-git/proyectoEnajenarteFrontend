@@ -93,8 +93,8 @@ export default function BibliotecaViva() {
             Para más información, contacta con nosotras.
           </p>
 
-          <Link to="/contacto" className="primary-button mt-5">
-            Contáctame
+          <Link to="/contacto?tema=biblioteca-viva" className="primary-button mt-5">
+            Contáctanos
           </Link>
         </div>
       </section>

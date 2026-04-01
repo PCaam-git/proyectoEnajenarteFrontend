@@ -1,9 +1,17 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import logoEnajenArte from '../../assets/logoEnajenArte.png'
 
 export default function Header() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const navButtonClass =
     'inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-5 py-3 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-soft)]'
+
+  function handleLogout() {
+    logout()
+    navigate('/Login')
+  }
 
   return (
     <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-background)]/95 backdrop-blur">
@@ -59,10 +67,41 @@ export default function Header() {
               </NavLink>
             </div>
           </div>
+          {user ? (
+            <div className="group relative">
+              <button type="button" className={navButtonClass}>
+                Mi cuenta
+              </button>
 
-          <NavLink to="/login" className={navButtonClass}>
-            Iniciar sesión
-          </NavLink>
+              <div className="invisible absolute right-0 mt-2 w-56 translate-y-1 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                <NavLink
+                  to="/perfil"
+                  className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                >
+                  Mi perfil
+                </NavLink>
+
+                <NavLink
+                  to="/mis-inscripciones"
+                  className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                >
+                  Mis inscripciones
+                </NavLink>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="block w-full rounded-xl px-4 py-2 text-left text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                >
+                  Cerrar sesión
+                </button>
+              </div>
+            </div>
+          ) : (
+            <NavLink to="/login" className={navButtonClass}>
+              Iniciar sesión
+            </NavLink>
+          )}
         </nav>
       </div>
     </header>

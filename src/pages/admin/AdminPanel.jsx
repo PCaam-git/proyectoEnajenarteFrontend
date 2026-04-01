@@ -37,9 +37,16 @@ export default function AdminPanel() {
         </Link>
 
         <Link to="/admin/inscripciones" className="info-box">
-          <h2 className="card-title">Inscripciones</h2>
+          <h2 className="card-title">Inscripciones de talleres</h2>
           <p className="page-text mt-2">
-            Consultar inscripciones y actualizar el estado de pago.
+            Consultar inscripciones y actualizar el estado de pagoen talleres.
+          </p>
+        </Link>
+
+        <Link to="/admin/inscripciones-programas" className="info-box">
+          <h2 className="card-title">Inscripciones de programas</h2>
+          <p className="page-text mt-2">
+            Consultar y eliminar inscripciones realizadas en programas.
           </p>
         </Link>
 

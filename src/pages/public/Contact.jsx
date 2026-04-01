@@ -1,15 +1,28 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { sendContactMessage } from '../../services/contactService'
 import { getAllWorkshops } from '../../services/workshopService'
 import { getAllPrograms } from '../../services/programService'
 
 export default function Contact() {
+  const location = useLocation()
+  const topicParam = new URLSearchParams(location.search).get('tema')
+
+  const staticTopic =
+    topicParam === 'biblioteca-viva'
+      ? 'Biblioteca Viva'
+      : topicParam === 'salud-l-mental'
+        ? 'Salud L-Mental'
+        : ''
+
   const [form, setForm] = useState({
     fullName: '',
     email: '',
-    category: 'WORKSHOP',
+    category: staticTopic ? 'PROGRAM' : 'WORKSHOP',
     referenceId: '',
-    message: '',
+    message: staticTopic
+      ? `Quiero solicitar más información sobre ${staticTopic}.`
+      : '',
   })
 
   const [workshops, setWorkshops] = useState([])
@@ -19,9 +32,11 @@ export default function Contact() {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    if (!staticTopic) {
     loadWorkshops()
     loadPrograms()
-  }, [])
+    }
+  }, [staticTopic])
 
   async function loadWorkshops() {
     try {
@@ -40,6 +55,8 @@ export default function Contact() {
       console.error(error)
     }
   }
+
+  const isStaticContact = staticTopic !== ''
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -67,15 +84,25 @@ export default function Contact() {
       setError('')
       setSuccess('')
 
-      await sendContactMessage(form)
+      const payload = isStaticContact
+        ? {
+            ...form,
+            category: 'PROGRAM',
+            referenceId: '',
+          }
+        : form
+
+      await sendContactMessage(payload)
 
       setSuccess('Mensaje enviado correctamente.')
       setForm({
         fullName: '',
         email: '',
-        category: 'WORKSHOP',
+        category: isStaticContact ? 'PROGRAM' : 'WORKSHOP',
         referenceId: '',
-        message: '',
+        message: isStaticContact
+          ? `Quiero solicitar más información sobre ${staticTopic}.`
+          : '',
       })
     } catch (error) {
       setError('No se ha podido enviar el mensaje.')
@@ -126,36 +153,45 @@ export default function Contact() {
           />
         </div>
 
-        <div className="form-field">
-          <label>Tipo de consulta</label>
-          <select
-            name="category"
-            value={form.category}
-            onChange={handleChange}
-            className="input"
-          >
-            <option value="WORKSHOP">Taller</option>
-            <option value="PROGRAM">Programa</option>
-          </select>
-        </div>
+        {isStaticContact ? (
+          <div className="form-field">
+            <label>Tema de consulta</label>
+            <input type="text" value={staticTopic} className="input" readOnly />
+          </div>
+        ) : (
+          <>
+            <div className="form-field">
+              <label>Tipo de consulta</label>
+              <select
+                name="category"
+                value={form.category}
+                onChange={handleChange}
+                className="input"
+              >
+                <option value="WORKSHOP">Taller</option>
+                <option value="PROGRAM">Programa</option>
+              </select>
+            </div>
 
-        <div className="form-field">
-          <label>Selecciona una opción</label>
-          <select
-            name="referenceId"
-            value={form.referenceId}
-            onChange={handleChange}
-            className="input"
-            required
-          >
-            <option value="">Selecciona una opción</option>
-            {currentList.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-        </div>
+            <div className="form-field">
+              <label>Selecciona una opción</label>
+              <select
+                name="referenceId"
+                value={form.referenceId}
+                onChange={handleChange}
+                className="input"
+                required={!isStaticContact}
+              >
+                <option value="">Selecciona una opción</option>
+                {currentList.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
 
         <div className="form-field">
           <label>Mensaje</label>

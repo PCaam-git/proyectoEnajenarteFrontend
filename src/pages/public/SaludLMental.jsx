@@ -90,8 +90,8 @@ export default function SaludLMental() {
             Para más información, contacta con nosotras.
           </p>
 
-          <Link to="/contacto" className="primary-button mt-5">
-            Contáctame
+          <Link to="/contacto?tema=salud-l-mental" className="primary-button mt-5">
+            Contáctanos
           </Link>
         </div>
       </section>
