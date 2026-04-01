@@ -9,6 +9,8 @@ import Events from './pages/public/Events'
 import Workshops from './pages/public/Workshops'
 import Programs from './pages/public/Programs'
 import Contact from './pages/public/Contact'
+import WorkshopRegistrationForm from './pages/public/WorkshopRegistrationForm'
+import ProgramRegistrationForm from './pages/public/ProgramRegistrationForm'
 
 import Profile from './pages/user/Profile'
 import MyRegistrations from './pages/user/MyRegistrations'
@@ -169,6 +171,12 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route 
+            path="/talleres/inscripcion/:id" 
+            element={
+              <WorkshopRegistrationForm />
+            } 
+          />
 
           <Route
             path="/admin/programas"
@@ -193,6 +201,12 @@ export default function App() {
                 <AdminProgramForm />
               </ProtectedRoute>
             }
+          />
+          <Route 
+            path="/programas/inscripcion/:id" 
+            element={
+              <ProgramRegistrationForm />
+            } 
           />
           <Route 
             path="/contacto" 

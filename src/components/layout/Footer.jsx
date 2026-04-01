@@ -67,7 +67,6 @@ export default function Footer() {
       <div className="border-t border-[var(--color-border)]">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-4 text-sm text-[var(--color-text-soft)] sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <p>© {currentYear} EnajenArte. Todos los derechos reservados.</p>
-          <p>Diseño frontend en desarrollo para la versión final del proyecto.</p>
         </div>
       </div>
     </footer>

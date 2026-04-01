@@ -11,3 +11,15 @@ export async function getAllPrograms() {
 
   return response.data
 }
+
+export async function getProgramById(id) {
+  const response = await api.get(`/programs/${id}`, {
+    validateStatus: (status) => status === 200 || status === 404,
+  })
+
+  if (response.status === 404) {
+    return null
+  }
+
+  return response.data
+}

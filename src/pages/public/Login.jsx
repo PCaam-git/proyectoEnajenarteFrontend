@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { loginUser } from '../../services/authService'
 import { useAuth } from '../../context/AuthContext'
 
 export default function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { login } = useAuth()
 
   const [formData, setFormData] = useState({
@@ -34,11 +35,16 @@ export default function Login() {
       const data = await loginUser(formData)
       login(data)
 
-      if (data.role === 'ADMIN') {
+      const from = location.state?.from
+
+      if (from) {
+        navigate(from)
+      } else if (data.role === 'ADMIN') {
         navigate('/admin')
       } else {
         navigate('/perfil')
-      }
+      } 
+      
     } catch (error) {
       setError('Usuario o contraseña incorrectos.')
       console.error(error)

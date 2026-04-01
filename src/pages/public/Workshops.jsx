@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getAllWorkshops } from '../../services/workshopService'
-import { createWorkshopRegistration } from '../../services/registrationService'
-import { useAuth } from '../../context/AuthContext'
 
 export default function Workshops() {
   const [workshops, setWorkshops] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [actionError, setActionError] = useState('')
-  const [actionSuccess, setActionSuccess] = useState('')
 
   const navigate = useNavigate()
-  const { user, isAuthenticated } = useAuth()
 
   useEffect(() => {
     loadWorkshops()
@@ -33,38 +28,7 @@ export default function Workshops() {
     }
   }
 
-  async function handleRegister(workshopId) {
-    try {
-      setActionError('')
-      setActionSuccess('')
-
-      if (!isAuthenticated()) {
-        navigate('/login')
-        return
-      }
-
-      const payload = {
-        numberOfTickets: 1,
-        userId: user.id,
-        workshopId: workshopId,
-        paymentStatus: 'PENDING',
-      }
-
-      await createWorkshopRegistration(payload)
-      setActionSuccess('Inscripción realizada correctamente. Puedes consultar el detalle de tu inscripción en el apartado <i>Mis Inscripciones</i> de tu perfil')
-      
-    } catch (error) {
-      const backendError = error.response?.data
-
-      if (backendError?.message) {
-        setActionError(backendError.message)
-      } else {
-        setActionError('No se ha podido realizar la inscripción.')
-      }
-
-      console.error(error)
-    }
-  }
+  
 
   return (
     <>
@@ -93,14 +57,6 @@ export default function Workshops() {
         {loading && <p className="empty-message">Cargando talleres...</p>}
 
         {!loading && error && <p className="error-message">{error}</p>}
-
-        {!loading && !error && actionSuccess && (
-          <p className="text-green-600">{actionSuccess}</p>
-        )}
-
-        {!loading && !error && actionError && (
-          <p className="error-message">{actionError}</p>
-        )}
 
         {!loading && !error && workshops.length === 0 && (
           <p className="empty-message">
@@ -133,7 +89,11 @@ export default function Workshops() {
                       <button
                         type="button"
                         className="primary-button"
-                        onClick={() => handleRegister(workshop.id)}
+                        onClick={() =>
+                          navigate(`/talleres/inscripcion/${workshop.id}`, {
+                            state: { name: workshop.name },
+                          })
+                        }
                       >
                         Me apunto
                       </button>
@@ -183,7 +143,11 @@ export default function Workshops() {
                       <button
                         type="button"
                         className="primary-button"
-                        onClick={() => handleRegister(workshop.id)}
+                        onClick={() => 
+                          navigate(`/talleres/inscripcion/${workshop.id}`, {
+                            state: { name: workshop.name },
+                          })
+                        }
                       >
                         Me apunto
                       </button>

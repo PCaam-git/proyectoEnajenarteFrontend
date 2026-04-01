@@ -122,7 +122,7 @@ export default function Events() {
 
                     <div className="mt-6">
                       <Link to="/contacto" className="primary-button">
-                        Me apunto
+                        Más información
                       </Link>
                     </div>
                   </div>
