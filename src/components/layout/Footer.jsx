@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import logoEnajenArte from '../../assets/logoEnajenArte.png'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -11,9 +12,13 @@ export default function Footer() {
     <footer className="mt-16 border-t border-[var(--color-border)] bg-[var(--color-surface)]">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_auto] lg:px-8">
         <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-[var(--color-text)]">
-            EnajenArte
-          </h2>
+          <Link to="/" className="inline-block">
+            <img
+              src={logoEnajenArte}
+              alt="EnajenArte"
+              className="h-45 w-auto"
+            />
+          </Link>
 
           <p className="mt-3 max-w-md text-sm leading-7 text-[var(--color-text-soft)]">
             Un espacio de creatividad, expresión y bienestar emocional con una
@@ -32,6 +37,8 @@ export default function Footer() {
             <Link to="/">Quiénes somos</Link>
             <br />
             <Link to="/politica-de-privacidad">Política de privacidad</Link>
+            <br />
+            <Link to="/login">Inicio de sesión</Link>
           </div>
         </div>
 

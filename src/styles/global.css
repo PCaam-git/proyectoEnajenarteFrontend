@@ -3,16 +3,16 @@
 /* Fondo blanco roto, texto gris oscuro, acentos en rosa vibrante y verde suave. Tarjetas suaves y redondeadas. Formulario y listados con una base visual unificada*/
 
 :root {
-  --color-background: #fffaf7; 
-  --color-surface: #ffffff;
-  --color-surface-soft: #fff6ef;
-  --color-surface-highlight: #e4f1ac;
-  --color-primary: #f72c5b;
-  --color-primary-soft: #ff748b;
-  --color-secondary: #a7d477;
-  --color-text: #2f2a2c;
-  --color-text-soft: #5f585b;
-  --color-border: #f3ddd9;
+  --color-background: #fdfdfd; /* Fondo general de toda la web: body, page-shell y base visual principal */
+  --color-surface: #ffffff; /* Fondo de tarjetas y contenedores principales: hero-section, hero-small, page-card, auth-card, item-card */
+  --color-surface-soft: #fffaf2; /* Fondo suave secundario: info-box, hover de botones/enlaces secundarios y bloques de apoyo */
+  --color-surface-highlight: #c9e452; /* Fondo destacado de etiquetas visuales: hero-tag y estados activos suaves en navegación */
+  --color-primary: #f72c5b;  /* Color principal de acción: botones principales, títulos/acento de categorías, elementos destacados */
+  --color-primary-soft: #ff748b; /* Hover/foco del color principal: hover de primary-button y focus de inputs/textarea/select */
+  --color-secondary: #c7eb63; /* Verde lima de apoyo para futuros acentos secundarios o elementos complementarios */
+  --color-text: #2f2a2c; /* Texto principal oscuro: títulos, labels, contenido prioritario */
+  --color-text-soft: #474044;  /* Texto secundario: párrafos, subtítulos, navegación menos prioritaria, descripciones */
+  --color-border: #ebe6e2; /* Bordes generales de tarjetas, inputs, header, footer y separadores */
 }
 
 html {
@@ -129,7 +129,7 @@ a {
 }
 
 .primary-button {
-  @apply inline-flex items-center justify-center rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-medium text-white transition hover:bg-[var(--color-primary-soft)];
+  @apply inline-flex items-center justify-center rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90;
 }
 
 .secondary-button {

@@ -20,7 +20,7 @@ export default function Home() {
               Ver talleres
             </Link>
 
-            <Link to="/programas" className="secondary-button">
+            <Link to="/programas" className="primary-button">
               Ver programas
             </Link>
           </div>
