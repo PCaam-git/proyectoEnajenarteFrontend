@@ -9,6 +9,7 @@ import Events from './pages/public/Events'
 import Workshops from './pages/public/Workshops'
 import Programs from './pages/public/Programs'
 import Contact from './pages/public/Contact'
+import PrivacyPolicy from './pages/public/PrivacyPolicy'
 import BibliotecaViva from './pages/public/BibliotecaViva'
 import SaludLMental from './pages/public/SaludLMental'
 import WorkshopRegistrationForm from './pages/public/WorkshopRegistrationForm'
@@ -47,6 +48,8 @@ export default function App() {
           <Route path="/programas" element={<Programs />} />
           <Route path="/biblioteca-viva" element={<BibliotecaViva />} />
           <Route path="/salud-l-mental" element={<SaludLMental />} />
+          <Route path="/contacto" element={<Contact />} />
+          <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
           
           
 
@@ -213,13 +216,6 @@ export default function App() {
               <ProgramRegistrationForm />
             } 
           />
-          <Route 
-            path="/contacto" 
-            element={
-              <Contact />
-            } 
-          />
-
           <Route
             path="/admin/calendario"
             element={

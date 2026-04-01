@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom'
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
-  // Función para manejar el scroll al top
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -16,11 +17,7 @@ export default function Footer() {
 
           <p className="mt-3 max-w-md text-sm leading-7 text-[var(--color-text-soft)]">
             Un espacio de creatividad, expresión y bienestar emocional con una
-            identidad cercana, amable y humana.
-          </p>
-
-          <p className="mt-4 text-sm text-[var(--color-text-soft)]">
-            Espacio reservado para futura newsletter.
+            identidad cercana, humana y transformadora.
           </p>
         </div>
 
@@ -30,11 +27,11 @@ export default function Footer() {
           </h3>
 
           <div className="mt-4 space-y-3 text-sm text-[var(--color-text-soft)]">
-            <a href="/contacto">Contáctame</a>
+            <Link to="/contacto">Contáctame</Link>
             <br />
-            <a href="/">Quiénes somos</a>
+            <Link to="/">Quiénes somos</Link>
             <br />
-            <a href="/">Política de privacidad</a>
+            <Link to="/politica-de-privacidad">Política de privacidad</Link>
           </div>
         </div>
 
@@ -44,11 +41,17 @@ export default function Footer() {
           </h3>
 
           <div className="mt-4 space-y-3 text-sm text-[var(--color-text-soft)]">
-            <a href="/">Instagram</a>
+            <a
+              href="https://www.instagram.com/enajenarte/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Instagram
+            </a>
             <br />
-            <a href="/talleres">Talleres</a>
+            <Link to="/talleres">Talleres</Link>
             <br />
-            <a href="/programas">Programas</a>
+            <Link to="/programas">Programas</Link>
           </div>
         </div>
 

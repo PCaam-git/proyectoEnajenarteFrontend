@@ -28,34 +28,54 @@ export default function Home() {
       </section>
 
       <section className="page-card mt-8">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <h2 className="section-title">La misión de EnajenArte</h2>
 
           <p className="page-text mt-4">
-            EnajenArte nace con la intención de crear espacios de bienestar,
-            expresión y acompañamiento donde la creatividad sirva como puente
-            entre lo que pensamos, sentimos, decimos y hacemos.
+            Somos Cristinica y Mónica, especialistas en comunicación tanto oral
+            como escrita y expertas en organización de eventos culturales.
           </p>
 
           <p className="page-text mt-4">
-            La propuesta une palabra, emoción, escucha, movimiento y creación
-            para ofrecer experiencias que ayuden a conocernos mejor, cuidar
-            nuestras relaciones y construir procesos personales y colectivos más
-            conscientes.
+            EnajenArte nace para dar voz a nuestro runrún interior. Nos
+            convertiremos en «Exploradores Enajenados», personas valientes que
+            aprenden a poner de acuerdo lo que sienten, lo que piensan y lo que
+            hacen; así como habilidades sociales e individuales para vivir en
+            bienestar.
           </p>
+
+          <p className="page-text mt-4">
+            Nosotras nos encargamos del abordaje social, de la red de apoyo, los
+            talleres, la creatividad y el buen rollo.
+          </p>
+
+          <p className="page-text mt-4">
+            Tú traerás las ganas de participar, reír, llorar, crear, indagar,
+            aprender y crecer.
+          </p>
+
+          <p className="page-text mt-4 font-medium">¡Ven con nosotras!</p>
         </div>
       </section>
 
       <section className="page-card mt-8">
         <h2 className="section-title">Quiénes somos</h2>
 
-        <div className="section-grid md:grid-cols-2">
+        <p className="page-text mt-4 max-w-3xl">
+          Juntas combinamos comunicación, creatividad, gestión emocional y
+          organización cultural para acompañar procesos personales y colectivos
+          desde una mirada cercana, humana y transformadora.
+        </p>
+
+        <div className="section-grid mt-8 md:grid-cols-2">
           <article className="info-box">
             <div className="avatar-circle">CG</div>
-            <h3 className="card-title">Cristina Gómez</h3>
+            <h3 className="card-title">Cristinica Gómez</h3>
 
             <p className="page-text mt-3">
-              Periodista · Correctora profesional · Máster en narrativa · <i>Community Manager</i> · Experta en inteligencia emocional · Autora de las novelas <i>Diez</i> y <i>Puta Loca</i>
+              Periodista · Correctora profesional · Máster en narrativa ·{' '}
+              <i>Community Manager</i> · Experta en inteligencia emocional ·
+              Autora de las novelas <i>Diez</i> y <i>Puta Loca</i>
             </p>
 
             <p className="quote-text">
@@ -69,7 +89,9 @@ export default function Home() {
             <h3 className="card-title">Mónica Caamaño</h3>
 
             <p className="page-text mt-3">
-              Coach en inteligencia emocional y relacional · Especialista en oratoria · Experta en <i>Storytelling</i> · Actriz amateur · Creadora artística · Terapeuta MCA
+              Coach en inteligencia emocional y relacional · Especialista en
+              oratoria · Experta en <i>Storytelling</i> · Actriz amateur ·
+              Creadora artística · Terapeuta MCA
             </p>
 
             <p className="quote-text">

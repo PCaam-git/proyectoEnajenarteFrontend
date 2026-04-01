@@ -1,22 +1,24 @@
 import { NavLink } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { useState } from 'react'
 
 export default function Header() {
-  const { user, logout, isAuthenticated, isAdmin } = useAuth()
+  const [isOpen, setIsOpen] = useState(false)
 
-  // Función para determinar la clase de los enlaces públicos
   const publicLinkClass = ({ isActive }) =>
     `rounded-full px-4 py-2 text-sm font-medium transition ${
       isActive
         ? 'bg-[var(--color-surface-highlight)] text-[var(--color-text)]'
         : 'text-[var(--color-text-soft)] hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]'
     }`
-  // Función para manejar el cierre de sesión
-  function handleLogout() {
-    logout()
+
+  function toggleDropdown() {
+    setIsOpen(!isOpen)
   }
 
-  // Renderizado del componente Header
+  function closeDropdown() {
+    setIsOpen(false)
+  }
+
   return (
     <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-background)]/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-5 sm:px-6 lg:px-8">
@@ -28,87 +30,68 @@ export default function Header() {
             >
               EnajenArte
             </NavLink>
-
-            <p className="mt-2 text-sm leading-6 text-[var(--color-text-soft)]">
-              Creatividad, bienestar y acompañamiento emocional desde una mirada
-              cercana, artística y humana.
-            </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            {!isAuthenticated() && (
-              <>
-                <NavLink to="/login" className="secondary-button">
-                  Iniciar sesión
-                </NavLink>
+          <nav className="flex flex-wrap items-center gap-2">
+            <NavLink to="/" className={publicLinkClass} onClick={closeDropdown}>
+              Inicio
+            </NavLink>
 
-                <NavLink to="/registro" className="primary-button">
-                  Registro
-                </NavLink>
-              </>
-            )}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={toggleDropdown}
+                className="rounded-full px-4 py-2 text-sm font-medium text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+              >
+                Qué ofrecemos
+              </button>
 
-            {isAuthenticated() && !isAdmin() && (
-              <>
-                <NavLink to="/perfil" className="secondary-button">
-                  Perfil
-                </NavLink>
+              {isOpen && (
+                <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 shadow-lg">
+                  <NavLink
+                    to="/talleres"
+                    onClick={closeDropdown}
+                    className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                  >
+                    Talleres
+                  </NavLink>
 
-                <NavLink to="/mis-inscripciones" className="secondary-button">
-                  Mis inscripciones
-                </NavLink>
+                  <NavLink
+                    to="/programas"
+                    onClick={closeDropdown}
+                    className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                  >
+                    Programas
+                  </NavLink>
 
-                <button
-                  type="button"
-                  className="primary-button"
-                  onClick={handleLogout}
-                >
-                  Salir
-                </button>
-              </>
-            )}
+                  <NavLink
+                    to="/biblioteca-viva"
+                    onClick={closeDropdown}
+                    className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                  >
+                    Biblioteca Viva
+                  </NavLink>
 
-            {isAuthenticated() && isAdmin() && (
-              <>
-                <NavLink to="/admin" className="secondary-button">
-                  Admin
-                </NavLink>
+                  <NavLink
+                    to="/salud-l-mental"
+                    onClick={closeDropdown}
+                    className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                  >
+                    Salud L-Mental
+                  </NavLink>
 
-                <button
-                  type="button"
-                  className="primary-button"
-                  onClick={handleLogout}
-                >
-                  Salir
-                </button>
-              </>
-            )}
-          </div>
+                  <NavLink
+                    to="/contacto"
+                    onClick={closeDropdown}
+                    className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                  >
+                    Contacto
+                  </NavLink>
+                </div>
+              )}
+            </div>
+          </nav>
         </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <NavLink to="/" className={publicLinkClass}>
-            Inicio
-          </NavLink>
-
-          <NavLink to="/talleres" className={publicLinkClass}>
-            Talleres
-          </NavLink>
-
-          <NavLink to="/programas" className={publicLinkClass}>
-            Programas
-          </NavLink>
-
-          <NavLink to="/contacto" className={publicLinkClass}>
-            Contacto
-          </NavLink>
-        </div>
-
-        {isAuthenticated() && user?.username && (
-          <p className="text-sm text-[var(--color-text-soft)]">
-            Sesión iniciada como <strong>{user.username}</strong>
-          </p>
-        )}
       </div>
     </header>
   )
