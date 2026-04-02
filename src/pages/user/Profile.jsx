@@ -58,6 +58,14 @@ export default function Profile() {
           </p>
         </div>
       )}
+      <div className="mt-6">
+        <button
+          onClick={() => window.location.href = '/perfil/editar'}
+          className="primary-button"
+        >
+          Editar perfil
+        </button>
+      </div>
     </section>
   )
 }

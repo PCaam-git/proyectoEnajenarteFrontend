@@ -3,7 +3,7 @@
 /* Fondo blanco roto, texto gris oscuro, acentos en rosa vibrante y verde suave. Tarjetas suaves y redondeadas. Formulario y listados con una base visual unificada*/
 
 :root {
-  --color-background: #fdfdfd; /* Fondo general de toda la web: body, page-shell y base visual principal */
+  --color-background: #fffaf236; /* Fondo general de toda la web: body, page-shell y base visual principal */
   --color-surface: #ffffff; /* Fondo de tarjetas y contenedores principales: hero-section, hero-small, page-card, auth-card, item-card */
   --color-surface-soft: #fffaf2; /* Fondo suave secundario: info-box, hover de botones/enlaces secundarios y bloques de apoyo */
   --color-surface-highlight: #c9e452; /* Fondo destacado de etiquetas visuales: hero-tag y estados activos suaves en navegación */

@@ -37,3 +37,8 @@ export async function getUserRegistrations(userId) {
 
   return response.data
 }
+
+export async function updateUser(id, userData) {
+  const response = await api.put(`/users/${id}`, userData)
+  return response.data
+}

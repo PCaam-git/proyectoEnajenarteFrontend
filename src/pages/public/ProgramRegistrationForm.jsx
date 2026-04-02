@@ -142,7 +142,7 @@ export default function ProgramRegistrationForm() {
               </p>
 
               <p>
-                <span className="item-label">Hora:</span> {program.hour}
+                <span className="item-label">Hora de inicio:</span> {program.hour}
               </p>
 
               <p>
@@ -155,7 +155,7 @@ export default function ProgramRegistrationForm() {
               </p>
 
               <p>
-                <span className="item-label">Precio:</span> {program.price} €
+                <span className="item-label">Precio mensual:</span> {program.price} €
               </p>
             </div>
           </div>

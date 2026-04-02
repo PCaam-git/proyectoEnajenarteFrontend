@@ -17,6 +17,7 @@ import ProgramRegistrationForm from './pages/public/ProgramRegistrationForm'
 
 import Profile from './pages/user/Profile'
 import MyRegistrations from './pages/user/MyRegistrations'
+import EditProfile from './pages/user/EditProfile'
 
 import AdminPanel from './pages/admin/AdminPanel'
 import AdminUsers from './pages/admin/AdminUsers'
@@ -68,6 +69,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <MyRegistrations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil/editar"
+            element={
+              <ProtectedRoute>
+                <EditProfile />
               </ProtectedRoute>
             }
           />

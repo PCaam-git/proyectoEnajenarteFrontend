@@ -10,13 +10,13 @@ export default function Footer() {
 
   return (
     <footer className="mt-16 border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_auto] lg:px-8">
+      <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-6 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_auto] lg:px-8">
         <div>
           <Link to="/" className="inline-block">
             <img
               src={logoEnajenArte}
               alt="EnajenArte"
-              className="h-45 w-auto"
+              className="h-[52px] w-auto origin-left scale-[3.2]"
             />
           </Link>
 
