@@ -108,10 +108,14 @@ export default function EditProfile() {
       setSaving(true)
       setError('')
 
-      const payload = {
-        ...formData,
-        phone: Number(formData.phone),
-      }
+    const payload = {
+     password: formData.password.trim() === '' ? null : formData.password,
+      email: formData.email,
+      fullName: formData.fullName,
+      phone: Number(formData.phone),
+      gender: formData.gender,
+      ageGroup: formData.ageGroup,
+    }
 
       await updateUser(user.id, payload)
       navigate('/perfil')
@@ -148,7 +152,7 @@ export default function EditProfile() {
             <input
               name="username"
               value={formData.username}
-              onChange={handleChange}
+              disabled
             />
           </div>
 
@@ -222,7 +226,7 @@ export default function EditProfile() {
               type="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Introduce tu contraseña"
+              placeholder="Deja este campo vacío para conservar la contraseña actual"
             />
           </div>
 
