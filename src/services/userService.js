@@ -29,6 +29,18 @@ export async function getUserRegistrations(userId) {
   return response.data
 }
 
+export async function getUserProgramRegistrations(userId) {
+  const response = await api.get(`/users/${userId}/program-registrations`, {
+    validateStatus: (status) => status === 200 || status === 204,
+  })
+
+  if (response.status === 204) {
+    return []
+  }
+
+  return response.data
+}
+
 export async function updateUser(id, userData) {
   const response = await api.put(`/users/${id}`, userData)
   return response.data

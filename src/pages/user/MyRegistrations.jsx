@@ -1,31 +1,37 @@
-import { useEffect, useState } from 'react'
-import { useAuth } from '../../context/AuthContext'
-import { getUserRegistrations } from '../../services/userService'
+import { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import {
+  getUserRegistrations,
+  getUserProgramRegistrations,
+} from "../../services/userService";
 
 export default function MyRegistrations() {
-  const { user } = useAuth()
+  const { user } = useAuth();
 
-  const [registrations, setRegistrations] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [registrations, setRegistrations] = useState([]);
+  const [programRegistrations, setProgramRegistrations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    loadRegistrations()
-  }, [])
+    loadRegistrations();
+  }, []);
 
   async function loadRegistrations() {
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await getUserRegistrations(user.id)
-      
-      setRegistrations(data)
+      const workshopData = await getUserRegistrations(user.id);
+      const programData = await getUserProgramRegistrations(user.id);
+
+      setRegistrations(workshopData);
+      setProgramRegistrations(programData);
     } catch (err) {
-      setError('No se han podido cargar las inscripciones.')
-      console.error(err)
+      setError("No se han podido cargar las inscripciones.");
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -37,13 +43,19 @@ export default function MyRegistrations() {
 
       {!loading && error && <p className="error-message">{error}</p>}
 
-      {!loading && !error && registrations.length === 0 && (
-        <p className="empty-message">
-          No tienes inscripciones registradas en este momento.
-        </p>
-      )}
+      {!loading &&
+        !error &&
+        registrations.length === 0 &&
+        programRegistrations.length === 0 && (
+          <p className="empty-message">
+            No tienes inscripciones registradas en este momento.
+          </p>
+        )}
 
       {!loading && !error && registrations.length > 0 && (
+        <>
+        <h2 className="section-title mt-10">Talleres</h2>
+
         <div className="list-grid mt-6">
           {registrations.map((registration) => (
             <article key={registration.registrationId} className="item-card">
@@ -51,38 +63,78 @@ export default function MyRegistrations() {
 
               <div className="item-data">
                 <p>
-                  <span className="item-label">ID inscripción:</span>{' '}
+                  <span className="item-label">ID inscripción:</span>{" "}
                   {registration.registrationId}
                 </p>
                 <p>
-                  <span className="item-label">Fecha de inscripción:</span>{' '}
-                  {new Date(registration.registrationDate).toLocaleDateString('es-ES')}
+                  <span className="item-label">Fecha de inscripción:</span>{" "}
+                  {new Date(registration.registrationDate).toLocaleDateString(
+                    "es-ES",
+                  )}
                 </p>
                 <p>
-                  <span className="item-label">Estado inscripción:</span>{' '}
+                  <span className="item-label">Estado inscripción:</span>{" "}
                   {registration.status}
                 </p>
                 <p>
-                  <span className="item-label">Estado de pago:</span>{' '}
-                  {registration.paymentStatus || 'Pendiente'}
+                  <span className="item-label">Estado de pago:</span>{" "}
+                  {registration.paymentStatus || "Pendiente"}
                 </p>
                 <p>
-                  <span className="item-label">ID workshop:</span>{' '}
+                  <span className="item-label">ID workshop:</span>{" "}
                   {registration.workshopId}
                 </p>
                 <p>
-                  <span className="item-label">Fecha de inicio:</span>{' '}
-                  {new Date(registration.workshopStartDate).toLocaleDateString('es-ES')}
+                  <span className="item-label">Fecha de inicio:</span>{" "}
+                  {new Date(registration.workshopStartDate).toLocaleDateString(
+                    "es-ES",
+                  )}
                 </p>
                 <p>
-                  <span className="item-label">Estado workshop:</span>{' '}
+                  <span className="item-label">Estado workshop:</span>{" "}
                   {registration.workshopStatus}
                 </p>
               </div>
             </article>
           ))}
         </div>
+        </>
+      )}
+
+      {!loading && !error && programRegistrations.length > 0 && (
+        <>
+          <h2 className="section-title mt-10">Programas</h2>
+
+          <div className="list-grid mt-6">
+            {programRegistrations.map((registration) => (
+              <article key={registration.id} className="item-card">
+                <h2 className="card-title">{registration.programName}</h2>
+
+                <div className="item-data">
+                  <p>
+                    <span className="item-label">ID inscripción:</span>{" "}
+                    {registration.id}
+                  </p>
+                  <p>
+                    <span className="item-label">Fecha de inscripción:</span>{" "}
+                    {new Date(registration.registrationDate).toLocaleDateString(
+                      "es-ES",
+                    )}
+                  </p>
+                  <p>
+                    <span className="item-label">Estado inscripción:</span>{" "}
+                    {registration.status}
+                  </p>
+                  <p>
+                    <span className="item-label">Estado de pago:</span>{" "}
+                    {registration.paymentStatus || "Pendiente"}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </>
       )}
     </section>
-  )
+  );
 }
