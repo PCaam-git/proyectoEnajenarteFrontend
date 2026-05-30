@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { getUserByUsername, updateUser } from '../../services/userService'
+import { getCurrentUser, updateUser } from '../../services/userService'
 
 export default function EditProfile() {
   const { user } = useAuth()
@@ -30,7 +30,7 @@ export default function EditProfile() {
       setLoading(true)
       setError('')
 
-      const data = await getUserByUsername(user.username)
+      const data = await getCurrentUser()
 
       if (!data) {
         setError('No se ha podido cargar el perfil del usuario.')

@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import {
-  getUserByUsername,
-  getUserRegistrations,
-} from '../../services/userService'
+import { getUserRegistrations } from '../../services/userService'
 
 export default function MyRegistrations() {
   const { user } = useAuth()
@@ -21,14 +18,8 @@ export default function MyRegistrations() {
       setLoading(true)
       setError('')
 
-      const currentUser = await getUserByUsername(user.username)
-
-      if (!currentUser) {
-        setError('No se ha podido identificar al usuario.')
-        return
-      }
-
-      const data = await getUserRegistrations(currentUser.id)
+      const data = await getUserRegistrations(user.id)
+      
       setRegistrations(data)
     } catch (err) {
       setError('No se han podido cargar las inscripciones.')

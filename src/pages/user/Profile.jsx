@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from '../../context/AuthContext'
-import { getUserByUsername } from '../../services/userService'
+import { getCurrentUser } from '../../services/userService'
 
 export default function Profile() {
-  const { user } = useAuth()
-
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -18,7 +15,7 @@ export default function Profile() {
       setLoading(true)
       setError('')
 
-      const data = await getUserByUsername(user.username)
+      const data = await getCurrentUser()
 
       if (!data) {
         setError('No se ha podido cargar el perfil del usuario.')
