@@ -1,43 +1,43 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { deleteEvent, getAllEvents } from '../../services/adminService'
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { deleteEvent, getAllEvents } from "../../services/adminService";
 
 export default function AdminEvents() {
-  const [events, setEvents] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    loadEvents()
-  }, [])
+    loadEvents();
+  }, []);
 
   async function loadEvents() {
     try {
-      setLoading(true)
-      setError('')
-      const data = await getAllEvents()
-      setEvents(data || [])
+      setLoading(true);
+      setError("");
+      const data = await getAllEvents();
+      setEvents(data || []);
     } catch (err) {
-      setError('No se han podido cargar los eventos.')
-      console.error(err)
+      setError("No se han podido cargar los eventos.");
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function handleDelete(id) {
-    const confirmed = window.confirm('¿Quieres eliminar este evento?')
+    const confirmed = window.confirm("¿Quieres eliminar este evento?");
 
     if (!confirmed) {
-      return
+      return;
     }
 
     try {
-      await deleteEvent(id)
-      await loadEvents()
+      await deleteEvent(id);
+      await loadEvents();
     } catch (err) {
-      setError('No se ha podido eliminar el evento.')
-      console.error(err)
+      setError("No se ha podido eliminar el evento.");
+      console.error(err);
     }
   }
 
@@ -63,10 +63,29 @@ export default function AdminEvents() {
               <h2 className="card-title">{event.title}</h2>
 
               <div className="item-data">
-                <p><span className="item-label">Ubicación:</span> {event.location}</p>
-                <p><span className="item-label">Fecha:</span> {new Date(event.eventDate).toLocaleString('es-ES')}</p>
-                <p><span className="item-label">Precio:</span> {event.entryFee} €</p>
-                <p><span className="item-label">Visibilidad:</span> {event.isPublic ? 'Público' : 'Privado'}</p>
+                <p>
+                  <span className="item-label">Ubicación:</span>{" "}
+                  {event.location}
+                </p>
+                <p>
+                  <span className="item-label">Fecha:</span>{" "}
+                  {new Date(event.eventDate).toLocaleString("es-ES")}
+                </p>
+                <p>
+                  <span className="item-label">Precio:</span> {event.entryFee} €
+                </p>
+                <p>
+                  <span className="item-label">Asistencia esperada:</span>{" "}
+                  {event.expectedAttendance}
+                </p>
+                <p>
+                  <span className="item-label">Ponente:</span>{" "}
+                  {event.speakerName || "Sin asignar"}
+                </p>
+                <p>
+                  <span className="item-label">Acceso:</span>{" "}
+                  {event.isPublic ? "Público" : "Privado"}
+                </p>
               </div>
 
               <div className="admin-actions">
@@ -90,5 +109,5 @@ export default function AdminEvents() {
         </div>
       )}
     </section>
-  )
+  );
 }

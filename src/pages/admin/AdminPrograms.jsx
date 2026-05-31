@@ -1,47 +1,44 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import {
-  deleteProgram,
-  getAllPrograms,
-} from '../../services/adminService'
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { deleteProgram, getAllPrograms } from "../../services/adminService";
 
 // Página de administración de programas
 export default function AdminPrograms() {
-  const [programs, setPrograms] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    loadPrograms()
-  }, [])
+    loadPrograms();
+  }, []);
 
   // Cargar programas
   async function loadPrograms() {
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await getAllPrograms()
-      setPrograms(data || [])
+      const data = await getAllPrograms();
+      setPrograms(data || []);
     } catch (error) {
-      setError('No se han podido cargar los programas.')
-      console.error(error)
+      setError("No se han podido cargar los programas.");
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   // Eliminar programa
   async function handleDelete(programId) {
-    const confirmed = window.confirm('¿Quieres eliminar este programa?')
-    if (!confirmed) return
+    const confirmed = window.confirm("¿Quieres eliminar este programa?");
+    if (!confirmed) return;
 
     try {
-      await deleteProgram(programId)
-      loadPrograms()
+      await deleteProgram(programId);
+      loadPrograms();
     } catch (error) {
-      setError('No se ha podido eliminar el programa.')
-      console.error(error)
+      setError("No se ha podido eliminar el programa.");
+      console.error(error);
     }
   }
 
@@ -72,13 +69,13 @@ export default function AdminPrograms() {
 
               <div className="item-data">
                 <p>
-                  <span className="item-label">Inicio:</span>{' '}
-                  {new Date(program.initDate).toLocaleDateString('es-ES')}
+                  <span className="item-label">Inicio:</span>{" "}
+                  {new Date(program.initDate).toLocaleDateString("es-ES")}
                 </p>
 
                 <p>
-                  <span className="item-label">Fin:</span>{' '}
-                  {new Date(program.finishDate).toLocaleDateString('es-ES')}
+                  <span className="item-label">Fin:</span>{" "}
+                  {new Date(program.finishDate).toLocaleDateString("es-ES")}
                 </p>
 
                 <p>
@@ -86,33 +83,37 @@ export default function AdminPrograms() {
                 </p>
 
                 <p>
-                  <span className="item-label">Duración:</span>{' '}
+                  <span className="item-label">Duración:</span>{" "}
                   {program.durationMinutes} min
-                </p>
-                <p>
-                    <span className="item-label">Precio:</span>{program.price} €
                 </p>
 
                 <p>
-                  <span className="item-label">Ubicación:</span>{' '}
+                  <span className="item-label">Capacidad:</span>{" "}
+                  {program.minimumParticipants}  {program.maxCapacity} plazas
+                </p>
+                <p>
+                  <span className="item-label">Precio: </span>
+                  {program.price} €
+                </p>
+
+                <p>
+                  <span className="item-label">Ubicación:</span>{" "}
                   {program.location}
                 </p>
 
                 <p>
-                  <span className="item-label">Modalidad:</span>{' '}
-                  {program.isOnline ? 'Online' : 'Presencial'}
+                  <span className="item-label">Modalidad:</span>{" "}
+                  {program.isOnline ? "Online" : "Presencial"}
                 </p>
 
                 <p>
                   <span className="item-label">Estado:</span> {program.status}
                 </p>
 
-                {program.speakerName && (
-                  <p>
-                    <span className="item-label">Ponente:</span>{' '}
-                    {program.speakerName}
-                  </p>
-                )}
+                <p>
+                  <span className="item-label">Ponente:</span>{" "}
+                  {program.speakerName || "Sin asignar"}
+                </p>
               </div>
 
               <div className="admin-actions">
@@ -136,5 +137,5 @@ export default function AdminPrograms() {
         </div>
       )}
     </section>
-  )
+  );
 }
