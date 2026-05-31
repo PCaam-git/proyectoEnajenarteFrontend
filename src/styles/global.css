@@ -163,7 +163,8 @@ a {
   @apply w-full rounded-2xl border border-[var(--color-border)] bg-white px-4 py-3 text-[var(--color-text)] outline-none transition focus:border-[var(--color-primary-soft)];
 }
 
-.form-field input:disabled {
+.form-field input:disabled,
+.form-field select:disabled {
   background-color: #e5e7eb;
   color: #6b7280;
   border-color: #d1d5db;
