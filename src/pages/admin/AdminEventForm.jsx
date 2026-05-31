@@ -1,111 +1,122 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   createEvent,
   getEventById,
   updateEvent,
-} from '../../services/adminService'
+} from "../../services/adminService";
+import { getAllSpeakers } from "../../services/speakerService";
 
 export default function AdminEventForm() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const isEditMode = Boolean(id)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
 
   const [formData, setFormData] = useState({
-    title: '',
-    location: '',
-    eventDate: '',
-    entryFee: '',
+    title: "",
+    location: "",
+    eventDate: "",
+    entryFee: "",
     isPublic: true,
-    expectedAttendance: '',
-    speakerId: '',
-  })
+    expectedAttendance: "",
+    speakerId: "",
+  });
 
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [speakers, setSpeakers] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    loadSpeakers();
+
     if (isEditMode) {
-      loadEvent()
+      loadEvent();
     }
-  }, [id])
+  }, [id]);
+
+  async function loadSpeakers() {
+    try {
+      const data = await getAllSpeakers();
+      setSpeakers(data);
+    } catch (err) {
+      setError("No se han podido cargar los ponentes.");
+      console.error(err);
+    }
+  }
 
   async function loadEvent() {
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await getEventById(id)
+      const data = await getEventById(id);
 
       setFormData({
-        title: data.title || '',
-        location: data.location || '',
-        eventDate: data.eventDate ? data.eventDate.slice(0, 16) : '',
-        entryFee: data.entryFee || '',
-        isPublic: data.isPublic,
-        expectedAttendance: '',
-        speakerId: data.speakerId || '',
-      })
+        title: data.title ?? "",
+        location: data.location ?? "",
+        eventDate: data.eventDate ? data.eventDate.slice(0, 16) : "",
+        entryFee: data.entryFee ?? "",
+        isPublic: data.isPublic ?? false,
+        expectedAttendance: data.expectedAttendance ?? "",
+        speakerId: data.speakerId ?? "",
+      });
+
     } catch (err) {
-      setError('No se ha podido cargar el evento.')
-      console.error(err)
+      setError("No se ha podido cargar el evento.");
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   function handleChange(event) {
-    const { name, value, type, checked } = event.target
+    const { name, value, type, checked } = event.target;
 
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    })
+      [name]: type === "checkbox" ? checked : value,
+    });
   }
 
   async function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
       const payload = {
         ...formData,
         entryFee: Number(formData.entryFee),
         expectedAttendance: Number(formData.expectedAttendance),
         speakerId: Number(formData.speakerId),
-      }
+      };
 
       if (isEditMode) {
-        await updateEvent(id, payload)
+        await updateEvent(id, payload);
       } else {
-        await createEvent(payload)
+        await createEvent(payload);
       }
 
-      navigate('/admin/eventos')
+      navigate("/admin/eventos");
     } catch (err) {
-      setError('No se ha podido guardar el evento.')
-      console.error(err)
+      setError("No se ha podido guardar el evento.");
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   return (
     <section className="auth-card">
       <h1 className="page-title">
-        {isEditMode ? 'Editar evento' : 'Crear evento'}
+        {isEditMode ? "Editar evento" : "Crear evento"}
       </h1>
 
       <form className="simple-form" onSubmit={handleSubmit}>
         <div className="form-field">
           <label>Título</label>
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
+          <input name="title" value={formData.title} onChange={handleChange} />
         </div>
 
         <div className="form-field">
@@ -149,13 +160,19 @@ export default function AdminEventForm() {
         </div>
 
         <div className="form-field">
-          <label>Speaker ID</label>
-          <input
+          <label>Ponente</label>
+          <select
             name="speakerId"
-            type="number"
             value={formData.speakerId}
             onChange={handleChange}
-          />
+          >
+            <option value="">Selecciona un ponente</option>
+            {speakers.map((speaker) => (
+              <option key={speaker.id} value={speaker.id}>
+                {speaker.firstName} {speaker.lastName}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="checkbox-field">
@@ -172,9 +189,9 @@ export default function AdminEventForm() {
         {error && <p className="error-message">{error}</p>}
 
         <button type="submit" className="primary-button" disabled={loading}>
-          {loading ? 'Guardando...' : 'Guardar'}
+          {loading ? "Guardando..." : "Guardar"}
         </button>
       </form>
     </section>
-  )
+  );
 }
