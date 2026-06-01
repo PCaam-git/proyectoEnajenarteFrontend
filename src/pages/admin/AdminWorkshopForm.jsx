@@ -1,144 +1,150 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   createWorkshop,
   getAllSpeakers,
   getWorkshopById,
   updateWorkshop,
-} from '../../services/adminService'
+} from "../../services/adminService";
 
 export default function AdminWorkshopForm() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const isEditMode = Boolean(id)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
 
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    startDate: '',
-    hour: '',
-    confirmationDeadline: '',
-    durationMinutes: '',
-    price: '',
-    minimumParticipants: '',
-    maxCapacity: '',
+    name: "",
+    description: "",
+    startDate: "",
+    hour: "",
+    confirmationDeadline: "",
+    durationMinutes: "",
+    price: "",
+    minimumParticipants: "",
+    maxCapacity: "",
     isOnline: false,
-    speakerId: '',
-  })
+    status: "CONFIRMED",
+    speakerId: "",
+  });
 
-  const [error, setError] = useState('')
-  const [speakers, setSpeakers] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("");
+  const [speakers, setSpeakers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loadSpeakers()
+    loadSpeakers();
 
     if (isEditMode) {
-      loadWorkshop()
+      loadWorkshop();
     }
-  }, [id])
+  }, [id]);
 
   async function loadSpeakers() {
     try {
-      const data = await getAllSpeakers()
-      setSpeakers(data || [])
+      const data = await getAllSpeakers();
+      setSpeakers(data || []);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
   async function loadWorkshop() {
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await getWorkshopById(id)
+      const data = await getWorkshopById(id);
 
       setFormData({
-        name: data.name || '',
-        description: data.description || '',
-        startDate: data.startDate || '',
-        hour: data.hour || '',
-        confirmationDeadline: data.confirmationDeadline || '',
-        durationMinutes: data.durationMinutes || '',
-        price: data.price || '',
-        minimumParticipants: data.minimumParticipants || '',
-        maxCapacity: data.maxCapacity ||'',
+        name: data.name || "",
+        description: data.description || "",
+        startDate: data.startDate || "",
+        hour: data.hour || "",
+        confirmationDeadline: data.confirmationDeadline || "",
+        durationMinutes: data.durationMinutes || "",
+        price: data.price || "",
+        minimumParticipants: data.minimumParticipants || "",
+        maxCapacity: data.maxCapacity || "",
         isOnline: data.isOnline,
-        speakerId: data.speakerId || '',
-      })
+        status: data.status || "CONFIRMED",
+        speakerId: data.speakerId || "",
+      });
     } catch (error) {
-      setError('No se ha podido cargar el taller.')
-      console.error(error)
+      setError("No se ha podido cargar el taller.");
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   function handleChange(event) {
-    const { name, value, type, checked } = event.target
+    const { name, value, type, checked } = event.target;
 
-    setFormData({
+    const updatedFormData = {
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    })
+      [name]: type === "checkbox" ? checked : value,
+    };
+
+    if (name === "status" && value !== "PENDING") {
+      updatedFormData.confirmationDeadline = "";
+    }
+
+    setFormData(updatedFormData);
   }
 
   async function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
       const payload = {
         ...formData,
+        confirmationDeadline:
+          formData.status === "PENDING" ? formData.confirmationDeadline : null,
         durationMinutes: Number(formData.durationMinutes),
         price: Number(formData.price),
         minimumParticipants: Number(formData.minimumParticipants),
         maxCapacity: Number(formData.maxCapacity),
         speakerId: Number(formData.speakerId),
-      }
+      };
 
       if (isEditMode) {
-        await updateWorkshop(id, payload)
+        await updateWorkshop(id, payload);
       } else {
-        await createWorkshop(payload)
+        await createWorkshop(payload);
       }
 
-      navigate('/admin/talleres')
+      navigate("/admin/talleres");
     } catch (error) {
-    console.error(error)
+      console.error(error);
 
-    const backendError = error.response?.data
+      const backendError = error.response?.data;
 
-    if (backendError?.message) {
-      setError(backendError.message)
-    } else if (backendError?.errors) {
-      const firstError = Object.values(backendError.errors)[0]
-     setError(firstError || 'No se ha podido guardar el taller.')
-    } else {
-      setError('No se ha podido guardar el taller.')
-    }
+      if (backendError?.message) {
+        setError(backendError.message);
+      } else if (backendError?.errors) {
+        const firstError = Object.values(backendError.errors)[0];
+        setError(firstError || "No se ha podido guardar el taller.");
+      } else {
+        setError("No se ha podido guardar el taller.");
+      }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   return (
     <section className="auth-card">
       <h1 className="page-title">
-        {isEditMode ? 'Editar taller' : 'Crear taller'}
+        {isEditMode ? "Editar taller" : "Crear taller"}
       </h1>
 
       <form className="simple-form" onSubmit={handleSubmit}>
         <div className="form-field">
           <label>Nombre</label>
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
+          <input name="name" value={formData.name} onChange={handleChange} />
         </div>
 
         <div className="form-field">
@@ -172,14 +178,30 @@ export default function AdminWorkshopForm() {
         </div>
 
         <div className="form-field">
-          <label>Fecha límite de confirmación</label>
-          <input
-            name="confirmationDeadline"
-            type="date"
-            value={formData.confirmationDeadline}
-            onChange={handleChange}
-          />
+          <label>Estado</label>
+          <select name="status" value={formData.status} onChange={handleChange}>
+            <option value="CONFIRMED">Confirmado</option>
+            <option value="PENDING">Pendiente</option>
+            <option value="CANCELLED">Cancelado</option>
+          </select>
         </div>
+
+        {formData.status === "PENDING" && (
+          <div className="form-field">
+            <label>Fecha límite de confirmación</label>
+            <input
+              name="confirmationDeadline"
+              type="date"
+              value={formData.confirmationDeadline}
+              onChange={handleChange}
+              required
+            />
+            <p className="field-help">
+              Solo se utiliza si el taller queda pendiente de alcanzar el mínimo
+              de participantes.
+            </p>
+          </div>
+        )}
 
         <div className="form-field">
           <label>Duración (minutos)</label>
@@ -252,9 +274,9 @@ export default function AdminWorkshopForm() {
         {error && <p className="error-message">{error}</p>}
 
         <button type="submit" className="primary-button" disabled={loading}>
-          {loading ? 'Guardando...' : 'Guardar'}
+          {loading ? "Guardando..." : "Guardar"}
         </button>
       </form>
     </section>
-  )
+  );
 }

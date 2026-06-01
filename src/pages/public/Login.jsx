@@ -42,7 +42,7 @@ export default function Login() {
       } else if (data.role === 'ADMIN') {
         navigate('/admin')
       } else {
-        navigate('/perfil')
+        navigate('/mis-inscripciones')
       } 
       
     } catch (error) {
@@ -59,8 +59,7 @@ export default function Login() {
         <span className="hero-tag">Acceso</span>
         <h1 className="page-title mt-4">Inicia sesión en EnajenArte</h1>
         <p className="page-text mt-4">
-          Accede a tu espacio personal para consultar tu perfil y gestionar tus
-          inscripciones.
+          Accede a tu espacio personal para consultar tus inscripciones y gestionar tu perfil.
         </p>
       </div>
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteProgram, getAllPrograms } from "../../services/adminService";
+import { getStatusLabel } from "../../utils/statusLabels";
 
 // Página de administración de programas
 export default function AdminPrograms() {
@@ -107,7 +108,7 @@ export default function AdminPrograms() {
                 </p>
 
                 <p>
-                  <span className="item-label">Estado:</span> {program.status}
+                  <span className="item-label">Estado:</span> {getStatusLabel(program.status)}
                 </p>
 
                 <p>

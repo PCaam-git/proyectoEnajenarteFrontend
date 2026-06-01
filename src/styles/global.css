@@ -188,3 +188,9 @@ textarea.input {
 .admin-actions {
   @apply mt-5 flex flex-wrap gap-3;
 }
+
+.field-help {
+  margin-top: 0.35rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+}

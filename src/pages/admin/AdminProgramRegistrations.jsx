@@ -3,6 +3,7 @@ import {
   deleteProgramRegistration,
   getAllProgramRegistrations,
 } from '../../services/programRegistrationService'
+import { getStatusLabel, getPaymentStatusLabel } from '../../utils/statusLabels'
 
 export default function AdminProgramRegistrations() {
   const [programRegistrations, setProgramRegistrations] = useState([])
@@ -116,12 +117,12 @@ export default function AdminProgramRegistrations() {
 
                 <p>
                   <span className="item-label">Estado:</span>{' '}
-                  {registration.status}
+                  {getStatusLabel(registration.status)}
                 </p>
 
                 <p>
                   <span className="item-label">Estado de pago:</span>{' '}
-                  {registration.paymentStatus}
+                  {getPaymentStatusLabel(registration.paymentStatus)}
                 </p>
               </div>
 
