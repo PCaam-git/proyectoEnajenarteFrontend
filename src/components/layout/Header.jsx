@@ -1,16 +1,16 @@
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
-import logoEnajenArte from '../../assets/logoEnajenArte.png'
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import logoEnajenArte from "../../assets/logoEnajenArte.png";
 
 export default function Header() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
+  const { user, logout, isAdmin } = useAuth();
+  const navigate = useNavigate();
   const navButtonClass =
-    'inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-5 py-3 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-soft)]'
+    "inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-5 py-3 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-soft)]";
 
   function handleLogout() {
-    logout()
-    navigate('/Login')
+    logout();
+    navigate("/Login");
   }
 
   return (
@@ -74,19 +74,39 @@ export default function Header() {
               </button>
 
               <div className="invisible absolute right-0 mt-2 w-56 translate-y-1 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                <NavLink
-                  to="/perfil"
-                  className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
-                >
-                  Mi perfil
-                </NavLink>
+                {isAdmin() ? (
+                  <>
+                    <NavLink
+                      to="/admin"
+                      className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                    >
+                      Panel de administración
+                    </NavLink>
 
-                <NavLink
-                  to="/mis-inscripciones"
-                  className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
-                >
-                  Mis inscripciones
-                </NavLink>
+                    <NavLink
+                      to="/admin/calendario"
+                      className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                    >
+                      Calendario
+                    </NavLink>
+                  </>
+                ) : (
+                  <>
+                    <NavLink
+                      to="/perfil"
+                      className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                    >
+                      Mi perfil
+                    </NavLink>
+
+                    <NavLink
+                      to="/mis-inscripciones"
+                      className="block rounded-xl px-4 py-2 text-sm text-[var(--color-text-soft)] transition hover:bg-[var(--color-surface-soft)] hover:text-[var(--color-text)]"
+                    >
+                      Mis inscripciones
+                    </NavLink>
+                  </>
+                )}
 
                 <button
                   type="button"
@@ -105,5 +125,5 @@ export default function Header() {
         </nav>
       </div>
     </header>
-  )
+  );
 }

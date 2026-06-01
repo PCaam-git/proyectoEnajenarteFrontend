@@ -51,7 +51,7 @@ export default function AdminPanel() {
         </Link>
 
         <Link to="/admin/calendario" className="info-box">
-          <h2 className="card-title">Calendario admin</h2>
+          <h2 className="card-title">Calendario</h2>
           <p className="page-text mt-2">
             Consultar y gestionar la planificación interna.
           </p>
