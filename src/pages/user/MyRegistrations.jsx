@@ -4,6 +4,7 @@ import {
   getUserRegistrations,
   getUserProgramRegistrations,
 } from "../../services/userService";
+import { getStatusLabel, getPaymentStatusLabel } from "../../utils/statusLabels";
 
 export default function MyRegistrations() {
   const { user } = useAuth();
@@ -92,7 +93,7 @@ export default function MyRegistrations() {
                 </p>
                 <p>
                   <span className="item-label">Estado workshop:</span>{" "}
-                  {registration.workshopStatus}
+                  {getStatusLabel(registration.workshopStatus)}
                 </p>
               </div>
             </article>
@@ -123,11 +124,11 @@ export default function MyRegistrations() {
                   </p>
                   <p>
                     <span className="item-label">Estado inscripción:</span>{" "}
-                    {registration.status}
+                    {getStatusLabel(registration.status)}
                   </p>
                   <p>
                     <span className="item-label">Estado de pago:</span>{" "}
-                    {registration.paymentStatus || "Pendiente"}
+                    {getPaymentStatusLabel(registration.paymentStatus)}
                   </p>
                 </div>
               </article>

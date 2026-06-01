@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteWorkshop, getAllWorkshops } from "../../services/adminService";
+import { getStatusLabel } from "../../utils/statusLabels";
 
 export default function AdminWorkshops() {
   const [workshops, setWorkshops] = useState([]);
@@ -105,7 +106,7 @@ export default function AdminWorkshops() {
                   {workshop.speakerName || "Sin asignar"}
                 </p>
                 <p>
-                  <span className="item-label">Estado:</span> {workshop.status}
+                  <span className="item-label">Estado:</span> {getStatusLabel(workshop.status)}
                 </p>
               </div>
 
