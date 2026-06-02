@@ -36,9 +36,17 @@ export default function AdminPrograms() {
 
     try {
       await deleteProgram(programId);
+      setError("");
       loadPrograms();
     } catch (error) {
-      setError("No se ha podido eliminar el programa.");
+      if (error.response?.status === 409) {
+        setError(
+          "No se puede eliminar el programa porque tiene inscripciones asociadas.",
+        );
+      } else {
+        setError("No se ha podido eliminar el programa.");
+      }
+
       console.error(error);
     }
   }
@@ -56,11 +64,11 @@ export default function AdminPrograms() {
 
       {loading && <p className="empty-message">Cargando programas...</p>}
       {!loading && error && <p className="error-message">{error}</p>}
-      {!loading && !error && programs.length === 0 && (
+      {!loading && programs.length === 0 && (
         <p className="empty-message">No hay programas disponibles.</p>
       )}
 
-      {!loading && !error && programs.length > 0 && (
+      {!loading && programs.length > 0 && (
         <div className="list-grid mt-6">
           {programs.map((program) => (
             <article key={program.id} className="item-card">
@@ -90,7 +98,7 @@ export default function AdminPrograms() {
 
                 <p>
                   <span className="item-label">Capacidad:</span>{" "}
-                  {program.minimumParticipants}  {program.maxCapacity} plazas
+                  {program.minimumParticipants} {program.maxCapacity} plazas
                 </p>
                 <p>
                   <span className="item-label">Precio: </span>
@@ -108,7 +116,8 @@ export default function AdminPrograms() {
                 </p>
 
                 <p>
-                  <span className="item-label">Estado:</span> {getStatusLabel(program.status)}
+                  <span className="item-label">Estado:</span>{" "}
+                  {getStatusLabel(program.status)}
                 </p>
 
                 <p>

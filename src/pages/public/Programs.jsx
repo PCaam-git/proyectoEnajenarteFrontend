@@ -1,30 +1,51 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { getAllPrograms } from '../../services/programService'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAllPrograms } from "../../services/programService";
+import { getStatusLabel } from "../../utils/statusLabels";
 
 export default function Programs() {
-  const [programs, setPrograms] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  function isProgramAvailable(program) {
+    if (program.status === "CANCELLED") {
+      return false;
+    }
+
+    if (!program.initDate) {
+      return false;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const programDate = new Date(`${program.initDate}T00:00:00`);
+    programDate.setHours(0, 0, 0, 0);
+
+    return programDate >= today;
+  }
 
   useEffect(() => {
-    loadPrograms()
-  }, [])
+    loadPrograms();
+  }, []);
 
   async function loadPrograms() {
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await getAllPrograms()
-      setPrograms(data || [])
+      const data = await getAllPrograms();
+      const availablePrograms = (data || []).filter(isProgramAvailable);
+
+      setPrograms(availablePrograms);
     } catch (error) {
-      setError('No se han podido cargar los programas.')
-      console.error(error)
+      setError("No se han podido cargar los programas.");
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -86,11 +107,11 @@ export default function Programs() {
                       <button
                         type="button"
                         className="primary-button"
-                        onClick={() => 
+                        onClick={() =>
                           navigate(`/programas/inscripcion/${program.id}`, {
                             state: { name: program.name },
                           })
-                        }  
+                        }
                       >
                         Me apunto
                       </button>
@@ -105,40 +126,47 @@ export default function Programs() {
 
                       <div className="item-data mt-4">
                         <p>
-                          <span className="item-label">Inicio:</span>{' '}
-                          {new Date(program.initDate).toLocaleDateString('es-ES')}
+                          <span className="item-label">Inicio:</span>{" "}
+                          {new Date(program.initDate).toLocaleDateString(
+                            "es-ES",
+                          )}
                         </p>
 
                         <p>
-                          <span className="item-label">Fin:</span>{' '}
-                          {new Date(program.finishDate).toLocaleDateString('es-ES')}
+                          <span className="item-label">Fin:</span>{" "}
+                          {new Date(program.finishDate).toLocaleDateString(
+                            "es-ES",
+                          )}
                         </p>
 
                         <p>
-                          <span className="item-label">Hora de inicio:</span> {program.hour}
+                          <span className="item-label">Hora de inicio:</span>{" "}
+                          {program.hour}
                         </p>
 
                         <p>
-                          <span className="item-label">Duración:</span>{' '}
+                          <span className="item-label">Duración:</span>{" "}
                           {program.durationMinutes} min
                         </p>
 
                         <p>
-                          <span className="item-label">Precio mensual:</span> {program.price} €
+                          <span className="item-label">Precio mensual:</span>{" "}
+                          {program.price} €
                         </p>
 
                         <p>
-                          <span className="item-label">Modalidad:</span>{' '}
-                          {program.isOnline ? 'Online' : 'Presencial'}
+                          <span className="item-label">Modalidad:</span>{" "}
+                          {program.isOnline ? "Online" : "Presencial"}
                         </p>
 
                         <p>
-                          <span className="item-label">Estado:</span> {program.status}
+                          <span className="item-label">Estado:</span>{" "}
+                          {getStatusLabel(program.status)}
                         </p>
 
                         {program.speakerName && (
                           <p>
-                            <span className="item-label">Ponente:</span>{' '}
+                            <span className="item-label">Ponente:</span>{" "}
                             {program.speakerName}
                           </p>
                         )}
@@ -149,7 +177,7 @@ export default function Programs() {
                       <button
                         type="button"
                         className="primary-button"
-                        onClick={() => 
+                        onClick={() =>
                           navigate(`/programas/inscripcion/${program.id}`, {
                             state: { name: program.name },
                           })
@@ -166,5 +194,5 @@ export default function Programs() {
         )}
       </section>
     </>
-  )
+  );
 }
