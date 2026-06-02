@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 export default function AdminPanel() {
   return (
@@ -15,13 +15,6 @@ export default function AdminPanel() {
           </p>
         </Link>
 
-        <Link to="/admin/eventos" className="info-box">
-          <h2 className="card-title">Eventos</h2>
-          <p className="page-text mt-2">
-            Consultar el listado de eventos disponibles.
-          </p>
-        </Link>
-
         <Link to="/admin/talleres" className="info-box">
           <h2 className="card-title">Talleres</h2>
           <p className="page-text mt-2">
@@ -33,6 +26,20 @@ export default function AdminPanel() {
           <h2 className="card-title">Programas</h2>
           <p className="page-text mt-2">
             Consultar el listado de programas disponibles.
+          </p>
+        </Link>
+
+        <Link to="/admin/eventos" className="info-box">
+          <h2 className="card-title">Eventos</h2>
+          <p className="page-text mt-2">
+            Consultar el listado de eventos disponibles.
+          </p>
+        </Link>
+
+        <Link to="/admin/ponentes" className="info-box">
+          <h2 className="card-title">Ponentes</h2>
+          <p className="page-text mt-2">
+            Gestionar las personas que imparten talleres, programas y eventos.
           </p>
         </Link>
 
@@ -58,5 +65,5 @@ export default function AdminPanel() {
         </Link>
       </div>
     </section>
-  )
+  );
 }

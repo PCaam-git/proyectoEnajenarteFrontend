@@ -34,6 +34,7 @@ export default function AdminSpeakers() {
 
     try {
       await deleteSpeaker(id)
+      setError('')
       await loadSpeakers()
     } catch (err) {
       if (err.response?.status === 409) {
@@ -59,11 +60,11 @@ export default function AdminSpeakers() {
 
       {!loading && error && <p className="error-message">{error}</p>}
 
-      {!loading && !error && speakers.length === 0 && (
+      {!loading && speakers.length === 0 && (
         <p className="empty-message">No hay ponentes disponibles.</p>
       )}
 
-      {!loading && !error && speakers.length > 0 && (
+      {!loading && speakers.length > 0 && (
         <div className="list-grid mt-6">
           {speakers.map((speaker) => (
             <article key={speaker.id} className="item-card">
