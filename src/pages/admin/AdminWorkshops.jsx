@@ -100,7 +100,7 @@ export default function AdminWorkshops() {
                 </p>
                 <p>
                   <span className="item-label">Ubicación:</span>{" "}
-                  {workshop.location}
+                  {workshop.location && workshop.location !== "." ? workshop.location : "Pendiente de confirmar"}
                 </p>
                 <p>
                   <span className="item-label">Modalidad:</span>{" "}

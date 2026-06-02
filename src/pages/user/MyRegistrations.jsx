@@ -75,15 +75,11 @@ export default function MyRegistrations() {
                 </p>
                 <p>
                   <span className="item-label">Estado inscripción:</span>{" "}
-                  {registration.status}
+                  {getStatusLabel(registration.status)}
                 </p>
                 <p>
                   <span className="item-label">Estado de pago:</span>{" "}
-                  {registration.paymentStatus || "Pendiente"}
-                </p>
-                <p>
-                  <span className="item-label">ID workshop:</span>{" "}
-                  {registration.workshopId}
+                  {getPaymentStatusLabel(registration.paymentStatus) || "Pendiente"}
                 </p>
                 <p>
                   <span className="item-label">Fecha de inicio:</span>{" "}
@@ -92,7 +88,7 @@ export default function MyRegistrations() {
                   )}
                 </p>
                 <p>
-                  <span className="item-label">Estado workshop:</span>{" "}
+                  <span className="item-label">Estado del taller:</span>{" "}
                   {getStatusLabel(registration.workshopStatus)}
                 </p>
               </div>

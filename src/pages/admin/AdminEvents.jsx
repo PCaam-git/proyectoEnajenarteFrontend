@@ -34,6 +34,7 @@ export default function AdminEvents() {
 
     try {
       await deleteEvent(id);
+      setError("");
       await loadEvents();
     } catch (err) {
       setError("No se ha podido eliminar el evento.");
@@ -52,11 +53,11 @@ export default function AdminEvents() {
 
       {loading && <p className="empty-message">Cargando eventos...</p>}
       {!loading && error && <p className="error-message">{error}</p>}
-      {!loading && !error && events.length === 0 && (
+      {!loading && events.length === 0 && (
         <p className="empty-message">No hay eventos disponibles.</p>
       )}
 
-      {!loading && !error && events.length > 0 && (
+      {!loading && events.length > 0 && (
         <div className="list-grid mt-6">
           {events.map((event) => (
             <article key={event.id} className="item-card">
