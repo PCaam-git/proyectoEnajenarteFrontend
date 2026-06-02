@@ -68,6 +68,15 @@ export default function AdminRegistrations() {
             <article key={registration.id} className="item-card">
               <div className="item-data">
                 <p>
+                  <span className="item-label">Usuario:</span>{" "}
+                  {registration.username || "Sin usuario"}
+                </p>
+
+                <p>
+                  <span className="item-label">Taller:</span>{" "}
+                  {registration.workshopName || "Sin taller"}
+                </p>
+                <p>
                   <span className="item-label">Fecha:</span>{" "}
                   {new Date(registration.registrationDate).toLocaleDateString(
                     "es-ES",

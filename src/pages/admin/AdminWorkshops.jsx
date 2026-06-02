@@ -34,14 +34,17 @@ export default function AdminWorkshops() {
 
     try {
       await deleteWorkshop(id);
+      setError("");
       loadWorkshops();
     } catch (err) {
       if (err.response?.status === 409) {
         setError(
           "No se puede eliminar el taller porque tiene inscripciones asociadas.",
         );
+      } else {
+        setError("No se ha podido eliminar el taller.");
       }
-      setError("No se ha podido eliminar el taller.");
+
       console.error(err);
     }
   }
@@ -57,11 +60,11 @@ export default function AdminWorkshops() {
 
       {loading && <p className="empty-message">Cargando talleres...</p>}
       {!loading && error && <p className="error-message">{error}</p>}
-      {!loading && !error && workshops.length === 0 && (
+      {!loading && workshops.length === 0 && (
         <p className="empty-message">No hay talleres disponibles.</p>
       )}
 
-      {!loading && !error && workshops.length > 0 && (
+      {!loading && workshops.length > 0 && (
         <div className="list-grid mt-6">
           {workshops.map((workshop) => (
             <article key={workshop.id} className="item-card">
@@ -73,12 +76,14 @@ export default function AdminWorkshops() {
                   <span className="item-label">Inicio:</span>{" "}
                   {new Date(workshop.startDate).toLocaleDateString("es-ES")}
                 </p>
-                <p>
-                  <span className="item-label">Confirmación:</span>{" "}
-                  {new Date(workshop.confirmationDeadline).toLocaleDateString(
-                    "es-ES",
-                  )}
-                </p>
+                {workshop.confirmationDeadline && (
+                  <p>
+                    <span className="item-label">Confirmación:</span>{" "}
+                    {new Date(workshop.confirmationDeadline).toLocaleDateString(
+                      "es-ES",
+                    )}
+                  </p>
+                )}
                 <p>
                   <span className="item-label">Hora:</span> {workshop.hour}
                 </p>
@@ -106,7 +111,8 @@ export default function AdminWorkshops() {
                   {workshop.speakerName || "Sin asignar"}
                 </p>
                 <p>
-                  <span className="item-label">Estado:</span> {getStatusLabel(workshop.status)}
+                  <span className="item-label">Estado:</span>{" "}
+                  {getStatusLabel(workshop.status)}
                 </p>
               </div>
 
