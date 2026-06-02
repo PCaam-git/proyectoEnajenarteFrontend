@@ -24,7 +24,7 @@ export default function BibliotecaViva() {
       </section>
 
       <section className="page-card mt-8">
-        <div className="max-w-3xl">
+        <div className="max-w-6xl">
           <h2 className="section-title">¿Cómo lo hacemos?</h2>
 
           <p className="page-text mt-4">
@@ -79,7 +79,7 @@ export default function BibliotecaViva() {
       </section>
 
       <section className="page-card mt-8">
-        <div className="max-w-3xl">
+        <div className="max-w-6xl">
           <h2 className="section-title">Una propuesta con mirada humana</h2>
 
           <p className="page-text mt-4">

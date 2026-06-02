@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import logoEnajenArte from '../../assets/logoEnajenArte.png'
+import logoEnajenArte2 from '../../assets/logoEnajenArte.png'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -9,14 +9,14 @@ export default function Footer() {
   }
 
   return (
-    <footer className="mt-16 border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+    <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-6 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_auto] lg:px-8">
         <div>
           <Link to="/" className="inline-block">
             <img
-              src={logoEnajenArte}
+              src={logoEnajenArte2}
               alt="EnajenArte"
-              className="h-[52px] w-auto origin-left scale-[3.2]"
+              className="w-36 object-contain md:w-44"
             />
           </Link>
 

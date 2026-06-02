@@ -1,11 +1,17 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import cristina_portada from "../../assets/cristina_portada.webp";
+import monica_portada from "../../assets/monica_portada.webp";
 
 export default function Home() {
   return (
     <>
-      <section className="hero-section">
-        <div className="hero-box">
-          <span className="hero-tag">Bienestar, creatividad y acompañamiento</span>
+      <section className="hero-section relative overflow-hidden">
+        <div className="absolute -left-16 -top-16 h-44 w-44 rounded-full bg-[var(--color-primary-soft)]/25" />
+        <div className="absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[var(--color-secondary-soft)]/80" />
+        <div className="hero-box relative z-10 mx-auto max-w-6xl text-center">
+          <span className="hero-tag">
+            Bienestar, creatividad y acompañamiento
+          </span>
 
           <h1 className="hero-title">EnajenArte</h1>
 
@@ -28,7 +34,7 @@ export default function Home() {
       </section>
 
       <section className="page-card mt-8">
-        <div className="max-w-4xl">
+        <div className="relative z-10 max-w-6xl">
           <h2 className="section-title">La misión de EnajenArte</h2>
 
           <p className="page-text mt-4">
@@ -58,22 +64,31 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="page-card mt-8">
-        <h2 className="section-title">Quiénes somos</h2>
+      <section className="page-card relative mt-8 overflow-hidden">
+  <div className="absolute -left-16 top-24 h-40 w-40 rounded-full bg-[var(--color-primary)]/10" />
+  <div className="absolute -right-14 bottom-10 h-44 w-44 rounded-full bg-[var(--color-secondary-soft)]/80" />
 
-        <p className="page-text mt-4 max-w-3xl">
+  <div className="relative z-10">
+    <h2 className="section-title">Quiénes somos</h2>
+
+        <p className="page-text mt-4 max-w-6xl">
           Juntas combinamos comunicación, creatividad, gestión emocional y
           organización cultural para acompañar procesos personales y colectivos
           desde una mirada cercana, humana y transformadora.
         </p>
 
-        <div className="mx-auto mt-8 grid max-w-4xl gap-5 md:grid-cols-2">
-          <article className="info-box">
-            <div className="avatar-circle">CG</div>
+        <div className="mx-auto mt-8 grid w-full max-w-6xl gap-8 md:grid-cols-2">
+          <article className="overflow-hidden rounded-[2.25rem] border border-[var(--color-border)] bg-[var(--color-surface-soft)] p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
+            <img
+              src={cristina_portada}
+              alt="Cristinica Gómez"
+              className="-mx-2 -mt-2 mb-5 h-[26rem] w-[calc(100%+1rem)] rounded-[2rem] object-cover object-[center_38%] shadow-sm md:h-[30rem]"
+            />
+
             <h3 className="card-title">Cristinica Gómez</h3>
 
             <p className="page-text mt-3">
-              Periodista · Correctora profesional · Máster en narrativa ·{' '}
+              Periodista · Correctora profesional · Máster en narrativa ·{" "}
               <i>Community Manager</i> · Experta en inteligencia emocional ·
               Autora de las novelas <i>Diez</i> y <i>Puta Loca</i>
             </p>
@@ -84,8 +99,13 @@ export default function Home() {
             </p>
           </article>
 
-          <article className="info-box">
-            <div className="avatar-circle">MC</div>
+          <article className="overflow-hidden rounded-[2.25rem] border border-[var(--color-border)] bg-[var(--color-surface-soft)] p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
+            <img
+              src={monica_portada}
+              alt="Mónica Caamaño"
+              className="-mx-2 -mt-2 mb-5 h-[26rem] w-[calc(100%+1rem)] rounded-[2rem] object-cover object-[center_38%] shadow-sm md:h-[30rem]"
+            />
+
             <h3 className="card-title">Mónica Caamaño</h3>
 
             <p className="page-text mt-3">
@@ -100,12 +120,13 @@ export default function Home() {
             </p>
           </article>
         </div>
+        </div>
       </section>
 
-            <section className="page-card mt-8">
+      <section className="page-card mt-8">
         <h2 className="section-title">Qué ofrecemos</h2>
 
-        <div className="section-grid md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-8 grid w-full gap-6 md:grid-cols-2 xl:grid-cols-4">
           <article className="info-box">
             <p className="service-label">Talleres</p>
 
@@ -176,7 +197,8 @@ export default function Home() {
             </p>
 
             <p className="page-text mt-4">
-              Aquí está compartido en próximas actualizaciones el formulario de contacto.
+              Aquí está compartido en próximas actualizaciones el formulario de
+              contacto.
             </p>
 
             <Link to="/contacto" className="primary-button mt-5">
@@ -196,5 +218,5 @@ export default function Home() {
         </div>
       </section>
     </>
-  )
+  );
 }

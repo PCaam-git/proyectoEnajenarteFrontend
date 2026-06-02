@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
-/* Fondo blanco roto, texto gris oscuro, acentos en rosa vibrante y verde suave. Tarjetas suaves y redondeadas. Formulario y listados con una base visual unificada*/
-
 :root {
-  --color-background: #fffaf236; /* Fondo general de toda la web: body, page-shell y base visual principal */
-  --color-surface: #ffffff; /* Fondo de tarjetas y contenedores principales: hero-section, hero-small, page-card, auth-card, item-card */
-  --color-surface-soft: #fffaf2; /* Fondo suave secundario: info-box, hover de botones/enlaces secundarios y bloques de apoyo */
-  --color-surface-highlight: #c9e452; /* Fondo destacado de etiquetas visuales: hero-tag y estados activos suaves en navegación */
-  --color-primary: #f72c5b;  /* Color principal de acción: botones principales, títulos/acento de categorías, elementos destacados */
-  --color-primary-soft: #ff748b; /* Hover/foco del color principal: hover de primary-button y focus de inputs/textarea/select */
-  --color-secondary: #c7eb63; /* Verde lima de apoyo para futuros acentos secundarios o elementos complementarios */
-  --color-text: #2f2a2c; /* Texto principal oscuro: títulos, labels, contenido prioritario */
-  --color-text-soft: #474044;  /* Texto secundario: párrafos, subtítulos, navegación menos prioritaria, descripciones */
-  --color-border: #ebe6e2; /* Bordes generales de tarjetas, inputs, header, footer y separadores */
+  --color-background: #d2ec89;
+  --color-surface: #ffffff;
+  --color-surface-soft: #fff3e8;
+
+  --color-primary: #f72c5b;
+  --color-primary-soft: #ff748b;
+  --color-secondary: #a7d477;
+  --color-secondary-soft: #e4f1ac;
+  --color-surface-highlight: #e4f1ac;
+
+  --color-text: #261f22;
+  --color-text-soft: #5b4d52;
+  --color-border: #f0ddd6;
 }
+
 
 html {
   font-family: Inter, system-ui, sans-serif;
@@ -37,11 +39,11 @@ a {
 }
 
 .page-shell {
-  @apply min-h-screen bg-[var(--color-background)] text-[var(--color-text)];
+  @apply flex min-h-screen flex-col bg-[var(--color-background)] text-[var(--color-text)];
 }
 
 .page-card {
-  @apply rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm;
+  @apply w-full rounded-[2.25rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm md:p-8 lg:p-10;
 }
 
 .page-title {
@@ -65,7 +67,7 @@ a {
 }
 
 .hero-box {
-  @apply mx-auto max-w-4xl text-center;
+  @apply mx-auto max-w-5xl text-center;
 }
 
 .hero-tag {
@@ -86,6 +88,29 @@ a {
 
 .section-grid {
   @apply mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.activity-panel {
+  @apply relative overflow-hidden rounded-[2.5rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+  justify-content: center;
+  gap: 2rem;
+}
+
+.activity-card-shell {
+  @apply mx-auto w-full max-w-[320px];
+}
+
+.activity-card-face {
+  @apply rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface-soft)] shadow-[0_12px_28px_rgba(0,0,0,0.08)];
+}
+
+.activity-decor {
+  @apply pointer-events-none absolute select-none opacity-90;
 }
 
 .info-box {
@@ -141,7 +166,7 @@ a {
 }
 
 .auth-card {
-  @apply mx-auto max-w-2xl rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm;
+  @apply mx-auto w-full max-w-3xl rounded-[2.5rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm md:p-10;
 }
 
 .simple-form {

@@ -1,103 +1,112 @@
-import { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { loginUser } from '../../services/authService'
-import { useAuth } from '../../context/AuthContext'
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { loginUser } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { login } = useAuth()
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  })
+    username: "",
+    password: "",
+  });
 
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleChange(event) {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
     setFormData({
       ...formData,
       [name]: value,
-    })
+    });
   }
 
   async function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await loginUser(formData)
-      login(data)
+      const data = await loginUser(formData);
+      login(data);
 
-      const from = location.state?.from
+      const from = location.state?.from;
 
       if (from) {
-        navigate(from)
-      } else if (data.role === 'ADMIN') {
-        navigate('/admin')
+        navigate(from);
+      } else if (data.role === "ADMIN") {
+        navigate("/admin");
       } else {
-        navigate('/mis-inscripciones')
-      } 
-      
+        navigate("/mis-inscripciones");
+      }
     } catch (error) {
-      setError('Usuario o contraseña incorrectos.')
-      console.error(error)
+      setError("Usuario o contraseña incorrectos.");
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   return (
-    <section className="auth-card">
-      <div className="text-center">
-        <span className="hero-tag">Acceso</span>
-        <h1 className="page-title mt-4">Inicia sesión en EnajenArte</h1>
-        <p className="page-text mt-4">
-          Accede a tu espacio personal para consultar tus inscripciones y gestionar tu perfil.
-        </p>
+    <section className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-stretch">
+      <div className="relative hidden overflow-hidden rounded-[2.5rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-10 shadow-sm lg:block">
+        <div className="absolute -left-16 -top-16 h-44 w-44 rounded-full bg-[var(--color-primary-soft)]/25" />
+        <div className="absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[var(--color-secondary-soft)]/80" />
+
+        <div className="relative z-10 flex h-full flex-col justify-center">
+          <span className="hero-tag w-fit">Tu espacio</span>
+          <h2 className="page-title mt-5">Vuelve a tu rincón creativo</h2>
+          <p className="page-text mt-5">
+            Accede para consultar tus inscripciones, revisar tus actividades y
+            mantener actualizados tus datos personales.
+          </p>
+        </div>
       </div>
 
-      <form className="simple-form" onSubmit={handleSubmit}>
-        <div className="form-field">
-          <label htmlFor="username">Usuario</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            placeholder="Tu nombre de usuario"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </div>
+      <div className="auth-card">
+        <span className="hero-tag">Inicia sesión</span>
 
-        <div className="form-field">
-          <label htmlFor="password">Contraseña</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Tu contraseña"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
+        <form className="simple-form" onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label htmlFor="username">Usuario</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              placeholder="Tu nombre de usuario"
+              value={formData.username}
+              onChange={handleChange}
+            />
+          </div>
 
-        {error && <p className="error-message">{error}</p>}
+          <div className="form-field">
+            <label htmlFor="password">Contraseña</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Tu contraseña"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
 
-        <button type="submit" className="primary-button" disabled={loading}>
-          {loading ? 'Entrando...' : 'Entrar'}
-        </button>
-      </form>
+          {error && <p className="error-message">{error}</p>}
 
-      <p className="auth-text">
-        ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
-      </p>
+          <button type="submit" className="primary-button" disabled={loading}>
+            {loading ? "Entrando..." : "Entrar"}
+          </button>
+        </form>
+
+        <p className="auth-text">
+          ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+        </p>
+      </div>
     </section>
-  )
+  );
 }
