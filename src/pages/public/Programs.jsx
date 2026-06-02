@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllPrograms } from "../../services/programService";
 import { getStatusLabel } from "../../utils/statusLabels";
+import el_eden from "../../assets/el_eden.png";
+import life_story from "../../assets/life_story.png";
+import caminatas_narrativas from "../../assets/caminatas_narrativas.png";
 
 export default function Programs() {
   const [programs, setPrograms] = useState([]);
@@ -71,7 +74,24 @@ export default function Programs() {
         </p>
       </section>
 
-      <section className="page-card mt-8">
+      <section className="page-card relative mt-8 overflow-hidden">
+        <img
+          src={life_story}
+          alt=""
+          className="pointer-events-none absolute left-8 top-8 hidden w-24 -rotate-6 opacity-80 lg:block"
+        />
+
+        <img
+          src={caminatas_narrativas}
+          alt=""
+          className="pointer-events-none absolute bottom-8 right-10 hidden w-28 rotate-3 opacity-80 lg:block"
+        />
+
+        <img
+          src={el_eden}
+          alt=""
+          className="pointer-events-none absolute right-10 top-10 hidden w-20 rotate-6 opacity-75 xl:block"
+        />
         {loading && <p className="empty-message">Cargando programas...</p>}
 
         {!loading && error && <p className="error-message">{error}</p>}
@@ -83,14 +103,14 @@ export default function Programs() {
         )}
 
         {!loading && !error && programs.length > 0 && (
-          <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 md:grid-cols-3">
+          <div className="relative z-10 mx-auto grid w-full max-w-5xl grid-cols-[repeat(auto-fit,minmax(280px,320px))] justify-center gap-8">
             {programs.map((program) => (
               <article
                 key={program.id}
-                className="group h-[440px] w-full max-w-xs [perspective:1200px]"
+                className="group h-[460px] w-full max-w-[320px] [perspective:1200px]"
               >
                 <div className="relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                  <div className="absolute inset-0 rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm [backface-visibility:hidden]">
+                  <div className="absolute inset-0 rounded-[2rem] border border-[var(--color-border)] bg-[var(--color-surface-soft)] p-6 shadow-[0_14px_32px_rgba(0,0,0,0.08)] [backface-visibility:hidden]">
                     <span className="service-label">Programa</span>
 
                     <h2 className="card-title mt-3">{program.name}</h2>
@@ -118,7 +138,7 @@ export default function Programs() {
                     </div>
                   </div>
 
-                  <div className="absolute inset-0 rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-surface-soft)] p-5 shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                  <div className="absolute inset-0 rounded-[2rem] border border-[var(--color-border)] bg-white p-6 shadow-[0_14px_32px_rgba(0,0,0,0.08)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
                     <h3 className="card-title">Detalles</h3>
 
                     <div className="mt-4 max-h-[280px] overflow-y-auto pr-2">
