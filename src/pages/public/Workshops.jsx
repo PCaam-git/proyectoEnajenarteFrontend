@@ -1,34 +1,53 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { getAllWorkshops } from '../../services/workshopService'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAllWorkshops } from "../../services/workshopService";
+import { getStatusLabel } from "../../utils/statusLabels";
 
 export default function Workshops() {
-  const [workshops, setWorkshops] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [workshops, setWorkshops] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  function isWorkshopAvailable(workshop) {
+    if (workshop.status === "CANCELLED") {
+      return false;
+    }
+
+    if (!workshop.startDate) {
+      return false;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const workshopDate = new Date(`${workshop.startDate}T00:00:00`);
+    workshopDate.setHours(0, 0, 0, 0);
+
+    return workshopDate >= today;
+  }
 
   useEffect(() => {
-    loadWorkshops()
-  }, [])
+    loadWorkshops();
+  }, []);
 
   async function loadWorkshops() {
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await getAllWorkshops()
-      setWorkshops(data || [])
+      const data = await getAllWorkshops();
+      const availableWorkshops = (data || []).filter(isWorkshopAvailable);
+
+      setWorkshops(availableWorkshops);
     } catch (error) {
-      setError('No se han podido cargar los talleres.')
-      console.error(error)
+      setError("No se han podido cargar los talleres.");
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
-
-  
 
   return (
     <>
@@ -108,31 +127,35 @@ export default function Workshops() {
 
                       <div className="item-data mt-4">
                         <p>
-                          <span className="item-label">Fecha:</span>{' '}
-                          {new Date(workshop.startDate).toLocaleDateString('es-ES')}
+                          <span className="item-label">Fecha:</span>{" "}
+                          {new Date(workshop.startDate).toLocaleDateString(
+                            "es-ES",
+                          )}
                         </p>
 
                         <p>
-                          <span className="item-label">Duración:</span>{' '}
+                          <span className="item-label">Duración:</span>{" "}
                           {workshop.durationMinutes} min
                         </p>
 
                         <p>
-                          <span className="item-label">Precio:</span> {workshop.price} €
+                          <span className="item-label">Precio:</span>{" "}
+                          {workshop.price} €
                         </p>
 
                         <p>
-                          <span className="item-label">Modalidad:</span>{' '}
-                          {workshop.isOnline ? 'Online' : 'Presencial'}
+                          <span className="item-label">Modalidad:</span>{" "}
+                          {workshop.isOnline ? "Online" : "Presencial"}
                         </p>
 
                         <p>
-                          <span className="item-label">Estado:</span> {workshop.status}
+                          <span className="item-label">Estado:</span>{" "}
+                          {getStatusLabel(workshop.status)}
                         </p>
 
                         {workshop.speakerName && (
                           <p>
-                            <span className="item-label">Ponente:</span>{' '}
+                            <span className="item-label">Ponente:</span>{" "}
                             {workshop.speakerName}
                           </p>
                         )}
@@ -143,7 +166,7 @@ export default function Workshops() {
                       <button
                         type="button"
                         className="primary-button"
-                        onClick={() => 
+                        onClick={() =>
                           navigate(`/talleres/inscripcion/${workshop.id}`, {
                             state: { name: workshop.name },
                           })
@@ -160,5 +183,5 @@ export default function Workshops() {
         )}
       </section>
     </>
-  )
+  );
 }
