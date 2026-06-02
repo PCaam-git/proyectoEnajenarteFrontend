@@ -4,13 +4,15 @@ import Footer from './Footer'
 export default function Layout({ children }) {
   return (
     <div className="page-shell">
-      <Header />
+  <Header />
 
-      <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        {children}
-      </main>
+  <div className="flex flex-1">
+    <main className="mx-auto w-full max-w-[96rem] px-5 py-8 sm:px-8 lg:px-10">
+      {children}
+    </main>
+  </div>
 
-      <Footer />
-    </div>
+  <Footer />
+</div>
   )
 }

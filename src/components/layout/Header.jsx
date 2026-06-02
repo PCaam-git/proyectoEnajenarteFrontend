@@ -1,12 +1,12 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import logoEnajenArte from "../../assets/logoEnajenArte.png";
+import logoEnajenArte2 from "../../assets/logoEnajenArte.png";
 
 export default function Header() {
   const { user, logout, isAdmin } = useAuth();
   const navigate = useNavigate();
   const navButtonClass =
-    "inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-5 py-3 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-soft)]";
+  "inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-6 py-3 text-sm font-semibold text-[var(--color-text)] shadow-sm transition hover:bg-[var(--color-surface-soft)]";
 
   function handleLogout() {
     logout();
@@ -14,13 +14,13 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-background)]/95 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-[110rem] items-center justify-between px-6 py-5 sm:px-8 lg:px-10">
-        <NavLink to="/" className="shrink-0">
+    <header className="sticky top-0 z-20 border-b border-black/10 bg-[var(--color-background)]">
+  <div className="mx-auto flex w-full max-w-[110rem] items-center justify-between px-6 py-1 sm:px-8 lg:px-8">
+        <NavLink to="/" className="flex items-center">
           <img
-            src={logoEnajenArte}
+            src={logoEnajenArte2}
             alt="EnajenArte"
-            className="h-[52px] w-auto origin-left scale-[3.2]"
+            className="w-52 object-contain md:w-45"
           />
         </NavLink>
 

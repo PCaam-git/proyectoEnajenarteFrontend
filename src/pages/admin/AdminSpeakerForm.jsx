@@ -1,102 +1,102 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   createSpeaker,
   getSpeakerById,
   updateSpeaker,
-} from '../../services/adminService'
+} from "../../services/adminService";
 
 export default function AdminSpeakerForm() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const isEditMode = Boolean(id)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    speciality: '',
-    yearsExperience: '',
-    workshopHoursTotal: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    speciality: "",
+    yearsExperience: "",
+    workshopHoursTotal: "",
     available: true,
-    joinDate: '',
-  })
+    joinDate: "",
+  });
 
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isEditMode) {
-      loadSpeaker()
+      loadSpeaker();
     }
-  }, [id])
+  }, [id]);
 
   async function loadSpeaker() {
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
-      const data = await getSpeakerById(id)
+      const data = await getSpeakerById(id);
 
       setFormData({
-        firstName: data.firstName || '',
-        lastName: data.lastName || '',
-        email: data.email || '',
-        speciality: data.speciality || '',
-        yearsExperience: data.yearsExperience || '',
-        workshopHoursTotal: '',
-        available: true,
-        joinDate: '',
-      })
+        firstName: data.firstName || "",
+        lastName: data.lastName || "",
+        email: data.email || "",
+        speciality: data.speciality || "",
+        yearsExperience: data.yearsExperience || "",
+        workshopHoursTotal: data.workshopHoursTotal ?? "",
+        available: data.available ?? true,
+        joinDate: data.joinDate || "",
+      });
     } catch (err) {
-      setError('No se ha podido cargar el ponente.')
-      console.error(err)
+      setError("No se ha podido cargar el ponente.");
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   function handleChange(event) {
-    const { name, value, type, checked } = event.target
+    const { name, value, type, checked } = event.target;
 
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    })
+      [name]: type === "checkbox" ? checked : value,
+    });
   }
 
   async function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
-      setLoading(true)
-      setError('')
+      setLoading(true);
+      setError("");
 
       const payload = {
         ...formData,
         yearsExperience: Number(formData.yearsExperience),
         workshopHoursTotal: Number(formData.workshopHoursTotal),
-      }
+      };
 
       if (isEditMode) {
-        await updateSpeaker(id, payload)
+        await updateSpeaker(id, payload);
       } else {
-        await createSpeaker(payload)
+        await createSpeaker(payload);
       }
 
-      navigate('/admin/ponentes')
+      navigate("/admin/ponentes");
     } catch (err) {
-      setError('No se ha podido guardar el ponente.')
-      console.error(err)
+      setError("No se ha podido guardar el ponente.");
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   return (
     <section className="auth-card">
       <h1 className="page-title">
-        {isEditMode ? 'Editar ponente' : 'Crear ponente'}
+        {isEditMode ? "Editar ponente" : "Crear ponente"}
       </h1>
 
       <form className="simple-form" onSubmit={handleSubmit}>
@@ -154,6 +154,7 @@ export default function AdminSpeakerForm() {
             type="number"
             value={formData.workshopHoursTotal}
             onChange={handleChange}
+            disabled={isEditMode}
           />
         </div>
 
@@ -181,9 +182,9 @@ export default function AdminSpeakerForm() {
         {error && <p className="error-message">{error}</p>}
 
         <button type="submit" className="primary-button" disabled={loading}>
-          {loading ? 'Guardando...' : 'Guardar'}
+          {loading ? "Guardando..." : "Guardar"}
         </button>
       </form>
     </section>
-  )
+  );
 }
