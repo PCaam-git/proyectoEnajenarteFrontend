@@ -67,13 +67,13 @@ export default function AdminProgramRegistrations() {
 
       {!loading && error && <p className="error-message">{error}</p>}
 
-      {!loading && !error && programRegistrations.length === 0 && (
+      {!loading && programRegistrations.length === 0 && (
         <p className="empty-message">
           No hay inscripciones de programas disponibles.
         </p>
       )}
 
-      {!loading && !error && programRegistrations.length > 0 && (
+      {!loading && programRegistrations.length > 0 && (
         <div className="list-grid mt-6">
           {programRegistrations.map((registration) => (
             <article key={registration.id} className="item-card">

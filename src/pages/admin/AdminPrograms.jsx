@@ -98,7 +98,7 @@ export default function AdminPrograms() {
 
                 <p>
                   <span className="item-label">Capacidad:</span>{" "}
-                  {program.minimumParticipants} {program.maxCapacity} plazas
+                  {program.maxCapacity} plazas
                 </p>
                 <p>
                   <span className="item-label">Precio: </span>
@@ -107,7 +107,7 @@ export default function AdminPrograms() {
 
                 <p>
                   <span className="item-label">Ubicación:</span>{" "}
-                  {program.location}
+                  {program.location && program.location !== "." ? program.location : "Pendiente de confirmar"}
                 </p>
 
                 <p>
