@@ -64,10 +64,6 @@ export default function MyRegistrations() {
 
               <div className="item-data">
                 <p>
-                  <span className="item-label">ID inscripción:</span>{" "}
-                  {registration.registrationId}
-                </p>
-                <p>
                   <span className="item-label">Fecha de inscripción:</span>{" "}
                   {new Date(registration.registrationDate).toLocaleDateString(
                     "es-ES",
@@ -108,10 +104,6 @@ export default function MyRegistrations() {
                 <h2 className="card-title">{registration.programName}</h2>
 
                 <div className="item-data">
-                  <p>
-                    <span className="item-label">ID inscripción:</span>{" "}
-                    {registration.id}
-                  </p>
                   <p>
                     <span className="item-label">Fecha de inscripción:</span>{" "}
                     {new Date(registration.registrationDate).toLocaleDateString(
