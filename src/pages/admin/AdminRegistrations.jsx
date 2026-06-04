@@ -87,10 +87,6 @@ export default function AdminRegistrations() {
                   {registration.confirmationCode}
                 </p>
                 <p>
-                  <span className="item-label">Pagado:</span>{" "}
-                  {registration.isPaid ? "Sí" : "No"}
-                </p>
-                <p>
                   <span className="item-label">Entradas:</span>{" "}
                   {registration.numberOfTickets}
                 </p>
