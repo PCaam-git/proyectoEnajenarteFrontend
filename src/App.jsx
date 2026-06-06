@@ -1,21 +1,41 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/layout/Layout'
+import ProtectedRoute from './components/common/ProtectedRoute'
 
 import Home from './pages/public/Home'
 import Login from './pages/public/Login'
 import Register from './pages/public/Register'
 import Events from './pages/public/Events'
 import Workshops from './pages/public/Workshops'
+import Programs from './pages/public/Programs'
+import Contact from './pages/public/Contact'
+import PrivacyPolicy from './pages/public/PrivacyPolicy'
+import BibliotecaViva from './pages/public/BibliotecaViva'
+import SaludLMental from './pages/public/SaludLMental'
+import WorkshopRegistrationForm from './pages/public/WorkshopRegistrationForm'
+import ProgramRegistrationForm from './pages/public/ProgramRegistrationForm'
 
 import Profile from './pages/user/Profile'
 import MyRegistrations from './pages/user/MyRegistrations'
+import EditProfile from './pages/user/EditProfile'
 
 import AdminPanel from './pages/admin/AdminPanel'
 import AdminUsers from './pages/admin/AdminUsers'
 import AdminSpeakers from './pages/admin/AdminSpeakers'
 import AdminEvents from './pages/admin/AdminEvents'
 import AdminWorkshops from './pages/admin/AdminWorkshops'
+import AdminPrograms from './pages/admin/AdminPrograms'
 import AdminRegistrations from './pages/admin/AdminRegistrations'
+import AdminProgramRegistrations from './pages/admin/AdminProgramRegistrations'
+import AdminCalendar from './pages/admin/AdminCalendar'
+
+import AdminUserForm from './pages/admin/AdminUserForm'
+import AdminSpeakerForm from './pages/admin/AdminSpeakerForm'
+import AdminEventForm from './pages/admin/AdminEventForm'
+import AdminWorkshopForm from './pages/admin/AdminWorkshopForm'
+import AdminProgramForm from './pages/admin/AdminProgramForm'
+import AdminRegistrationForm from './pages/admin/AdminRegistrationForm'
+import AdminCalendarForm from './pages/admin/AdminCalendarForm'
 
 export default function App() {
   return (
@@ -27,16 +47,244 @@ export default function App() {
           <Route path="/registro" element={<Register />} />
           <Route path="/eventos" element={<Events />} />
           <Route path="/talleres" element={<Workshops />} />
+          <Route path="/programas" element={<Programs />} />
+          <Route path="/biblioteca-viva" element={<BibliotecaViva />} />
+          <Route path="/salud-l-mental" element={<SaludLMental />} />
+          <Route path="/contacto" element={<Contact />} />
+          <Route path="/politica-de-privacidad" element={<PrivacyPolicy />} />
+          
+          
 
-          <Route path="/perfil" element={<Profile />} />
-          <Route path="/mis-inscripciones" element={<MyRegistrations />} />
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/admin" element={<AdminPanel />} />
-          <Route path="/admin/usuarios" element={<AdminUsers />} />
-          <Route path="/admin/ponentes" element={<AdminSpeakers />} />
-          <Route path="/admin/eventos" element={<AdminEvents />} />
-          <Route path="/admin/talleres" element={<AdminWorkshops />} />
-          <Route path="/admin/inscripciones" element={<AdminRegistrations />} />
+          <Route
+            path="/mis-inscripciones"
+            element={
+              <ProtectedRoute>
+                <MyRegistrations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil/editar"
+            element={
+              <ProtectedRoute>
+                <EditProfile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/usuarios"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminUsers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/usuarios/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminUserForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/usuarios/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminUserForm />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/ponentes"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminSpeakers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/ponentes/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminSpeakerForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/ponentes/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminSpeakerForm />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/eventos"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminEvents />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/eventos/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminEventForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/eventos/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminEventForm />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/talleres"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminWorkshops />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/talleres/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminWorkshopForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/talleres/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminWorkshopForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/talleres/inscripcion/:id" 
+            element={
+              <WorkshopRegistrationForm />
+            } 
+          />
+
+          <Route
+            path="/admin/programas"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminPrograms />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/programas/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminProgramForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/programas/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminProgramForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/programas/inscripcion/:id" 
+            element={
+              <ProgramRegistrationForm />
+            } 
+          />
+          <Route
+            path="/admin/inscripciones-programas"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminProgramRegistrations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/calendario"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminCalendar />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/calendario/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminCalendarForm />
+              </ProtectedRoute>
+          }
+          />
+
+          <Route
+            path="/admin/calendario/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminCalendarForm />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/inscripciones"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminRegistrations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/inscripciones/nuevo"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminRegistrationForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/inscripciones/editar/:id"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminRegistrationForm />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </BrowserRouter>
